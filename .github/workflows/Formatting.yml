@@ -16,4 +16,6 @@ jobs:
 
     - name: Run Format Check
       working-directory: ${{ github.workspace }}
-      run: clang-format --dry-run --Werror src/**/*.c src/**/*.h test/**/*.c test/**/*.h
+      run: |
+        shopt -s globstar
+        clang-format --dry-run --Werror src/**/*.c src/**/*.h test/**/*.c test/**/*.h
