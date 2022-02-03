@@ -47,6 +47,9 @@ option(ULQR_BUILD_DOCS "Build documentation for ulqr." OFF)
 # Code Coverage
 option(ULQR_CODE_COVERAGE "Compile ulqr with code coverage information." OFF)
 
+# Enable clang-tidy analysis 
+option(ULQR_CLANG_TIDY "Run clang-tidy analyzer on the source code." OFF) 
+
 ##############################
 # Dependencies
 ##############################

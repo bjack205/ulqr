@@ -17,7 +17,7 @@ Matrix slap_NewMatrix(int rows, int cols) {
 }
 
 int slap_MatrixSetConst(Matrix* mat, double val) {
-  if (!mat) return -1;
+  if (!mat) { return -1; }
   for (int i = 0; i < slap_MatrixNumElements(mat); ++i) {
     mat->data[i] = val;
   }
@@ -36,13 +36,13 @@ int slap_FreeMatrix(Matrix* mat) {
 }
 
 int slap_MatrixNumElements(const Matrix* mat) {
-  if (!mat) return -1;
+  if (!mat) { return -1; }
   return mat->rows * mat->cols;
 }
 
 int slap_MatrixGetLinearIndex(const Matrix* mat, int row, int col) {
-  if (!mat) return -1;
-  if (row < 0 || col < 0) return -1;
+  if (!mat) { return -1; }
+  if (row < 0 || col < 0) { return -1; }
   return row + mat->rows * col;
 }
 
@@ -53,6 +53,7 @@ double* slap_MatrixGetElement(const Matrix* mat, int row, int col) {
 
 double* slap_MatrixGetElementTranspose(const Matrix* mat, int row, int col,
                                        bool istranposed) {
+  double* out;
   if (!istranposed) {
     return slap_MatrixGetElement(mat, row, col);
   } else {
