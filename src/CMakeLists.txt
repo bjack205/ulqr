@@ -4,7 +4,9 @@ if (ULQR_CLANG_TIDY AND (CMAKE_C_COMPILER_ID STREQUAL "Clang"))
     clang-tidy;
     -export-fixes=tidy-fixes.yaml;
     -header-filter=.;
-    -checks="bugprone-*, clang-*, google-*, readability-*, modernize-*, performance-*, portability-*";
+    --config-file=${PROJECT_SOURCE_DIR}/.clang-tidy;
+    # -extra-arg="--std=c11";
+    # -checks="bugprone-*, clang-*, google-*, readability-*, modernize-*, performance-*, portability-*";
   )
 endif()
 
