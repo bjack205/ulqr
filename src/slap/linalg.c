@@ -17,7 +17,8 @@ int slap_MatrixScale(Matrix* A, double alpha) {
   return 0;
 }
 
-int slap_MatrixMultiply(Matrix* A, Matrix* B, Matrix* C, bool tA, bool tB, double alpha, double beta) {
+int slap_MatrixMultiply(Matrix* A, Matrix* B, Matrix* C, bool tA, bool tB, double alpha,
+                        double beta) {
   int n, m;
   if (tA) {
     n = A->cols;
@@ -26,11 +27,11 @@ int slap_MatrixMultiply(Matrix* A, Matrix* B, Matrix* C, bool tA, bool tB, doubl
     n = A->rows;
     m = A->cols;
   }
-  int p = tB ? B->rows :  B->cols;
+  int p = tB ? B->rows : B->cols;
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < p; ++j) {
       double* Cij = slap_MatrixGetElement(C, i, j);
-      *Cij *= beta; 
+      *Cij *= beta;
       for (int k = 0; k < m; ++k) {
         double Aik = *slap_MatrixGetElementTranspose(A, i, k, tA);
         double Bkj = *slap_MatrixGetElementTranspose(B, k, j, tB);
@@ -41,7 +42,8 @@ int slap_MatrixMultiply(Matrix* A, Matrix* B, Matrix* C, bool tA, bool tB, doubl
   return 0;
 }
 
-int slap_SymmetricMatrixMultiply(Matrix* Asym, Matrix* B, Matrix* C, double alpha, double beta) {
+int slap_SymmetricMatrixMultiply(Matrix* Asym, Matrix* B, Matrix* C, double alpha,
+                                 double beta) {
   int n, m;
   bool tA = false;
   bool tB = false;
@@ -52,16 +54,16 @@ int slap_SymmetricMatrixMultiply(Matrix* Asym, Matrix* B, Matrix* C, double alph
     n = Asym->rows;
     m = Asym->cols;
   }
-  int p = tB ? B->rows :  B->cols;
+  int p = tB ? B->rows : B->cols;
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < p; ++j) {
       double* Cij = slap_MatrixGetElement(C, i, j);
-      *Cij *= beta; 
+      *Cij *= beta;
       for (int k = 0; k < m; ++k) {
         int row = i;
         int col = k;
         if (i < k) {
-          row = k; 
+          row = k;
           col = i;
         }
         double Aik = *slap_MatrixGetElement(Asym, row, col);
@@ -118,8 +120,8 @@ int slap_LowerTriBackSub(Matrix* L, Matrix* b, bool istransposed) {
       double Ljj = *slap_MatrixGetElement(L, j, j);
       *xjk /= Ljj;
 
-      for (int i_ = j_+1; i_ < n; ++i_) {
-        int i = istransposed ? i_ - (j_+1)  : i_;
+      for (int i_ = j_ + 1; i_ < n; ++i_) {
+        int i = istransposed ? i_ - (j_ + 1) : i_;
         double* xik = slap_MatrixGetElement(b, i, k);
         double Lij = *slap_MatrixGetElementTranspose(L, i, j, istransposed);
         *xik -= Lij * (*xjk);

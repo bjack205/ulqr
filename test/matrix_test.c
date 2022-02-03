@@ -1,7 +1,6 @@
-#include <math.h>
+#include "slap/matrix.h"
 
-#include "simpletest/simpletest.h"
-#include "slap/matrix.h" 
+#include <math.h>
 
 #include "simpletest/simpletest.h"
 

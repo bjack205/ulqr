@@ -4,40 +4,40 @@
  * @brief Super simple unit testing framework for C
  * @version 0.1
  * @date 2022-02-03
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  * ## Overview
  * This extremely simple library aims to be simple and functional, allowing you
- * to write unit tests quickly, without getting your way. 
+ * to write unit tests quickly, without getting your way.
  * This package incorporates seamlessly into CTest and is extremely lightweight.
- * 
+ *
  * ## Usage
- * To use, just wrap any boolean expressing in the `TEST` macro to check if it's 
+ * To use, just wrap any boolean expressing in the `TEST` macro to check if it's
  * true or not. If true, it counts as a passed test, otherwise it fails.
- * Then, after calling all your test code, return the output of TestResult() from 
- * your main function. Optionally, you can use PrintTestStatus() before you return 
+ * Then, after calling all your test code, return the output of TestResult() from
+ * your main function. Optionally, you can use PrintTestStatus() before you return
  * to print the results.
- * 
- * Any failed tests will show the expression that failed, along with the file and 
+ *
+ * Any failed tests will show the expression that failed, along with the file and
  * line number of test.
- * 
+ *
  * ## Example
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.c}
  * #include "simpletest.h"
- * 
+ *
  * void MyTestFunction() {
  *   TEST(2 == 1 + 1);
  *   TEST(4 == 2 * 2);
  * }
- * 
+ *
  * int main() {
  *   PrintTestResult();
  *   return TestResult();
  * }
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * 
- * 
+ *
+ *
  */
 #pragma once
 

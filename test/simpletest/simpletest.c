@@ -12,15 +12,15 @@ void ResetTests() {
 
 void TestFail() { ++tests_total; }
 
-void TestPass() { 
-    ++tests_total; 
-    ++tests_passed;
+void TestPass() {
+  ++tests_total;
+  ++tests_passed;
 }
 
 int TestResult() { return !(tests_passed == tests_total); }
 
-void PrintTestResult() { 
-  printf("Passed %d / %d tests.\n", tests_passed, tests_total); 
+void PrintTestResult() {
+  printf("Passed %d / %d tests.\n", tests_passed, tests_total);
   if (tests_passed == tests_total) {
     printf("ALL TESTS PASSED!\n");
   }
@@ -28,5 +28,5 @@ void PrintTestResult() {
 
 void PrintFail(const char* expr, const char* file, int line) {
   printf("TEST FAILED! %s\n", expr);
-  printf("%s%s:%d\n", "             ", file, line); 
+  printf("%s%s:%d\n", "             ", file, line);
 }

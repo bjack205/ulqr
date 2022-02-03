@@ -1,6 +1,7 @@
 #include "slap/linalg.h"
-#include "slap/matrix.h"
+
 #include "simpletest/simpletest.h"
+#include "slap/matrix.h"
 
 #ifdef USE_EIGEN
 #include "eigen_c/eigen_c.h"
@@ -112,7 +113,7 @@ int CholeskyFactorizeTest() {
   slap_AddDiagonal(&A, 1.0);
   slap_MatrixCopy(&Achol, &A);
   int res = slap_CholeskyFactorize(&Achol);
-  TEST(res ==  slap_kCholeskySuccess);
+  TEST(res == slap_kCholeskySuccess);
 
 #ifdef USE_EIGEN
   // Check answer with Eigen
@@ -126,7 +127,7 @@ int CholeskyFactorizeTest() {
   slap_AddDiagonal(&A, -1.0);
   slap_MatrixCopy(&Achol, &A);
   res = slap_CholeskyFactorize(&Achol);
-  TEST(res ==  slap_kCholeskyFail);
+  TEST(res == slap_kCholeskyFail);
 
   slap_FreeMatrix(&A1);
   slap_FreeMatrix(&A2);
@@ -146,10 +147,10 @@ int TriBackSubTest() {
   Matrix b = {n, 1, bdata};
   Matrix y = {n, 1, ydata};
   Matrix x = {n, 1, xdata};
-   slap_LowerTriBackSub(&L, &b, 0);
+  slap_LowerTriBackSub(&L, &b, 0);
   TEST(slap_MatrixNormedDifference(&b, &y) < 1e-6);
 
-   slap_LowerTriBackSub(&L, &y, 1);
+  slap_LowerTriBackSub(&L, &y, 1);
   TEST(slap_MatrixNormedDifference(&x, &y) < 1e-6);
 
   return 1;
