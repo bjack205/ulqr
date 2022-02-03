@@ -32,11 +32,23 @@ endif()
 # Documentation
 option(ULQR_BUILD_DOCS "Build documentation for ulqr." OFF)
 
+# Code Coverage
+option(ULQR_CODE_COVERAGE "Compile ulqr with code coverage information." OFF)
+
 ##############################
 # Dependencies
 ##############################
 if (ULQR_BUILD_DOCS)
   find_package(Doxygen REQUIRED)
+endif()
+
+##############################
+# Code Coverage 
+##############################
+if(ULQR_CODE_COVERAGE AND CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
+  message(STATUS "Compiling ulqr with coverage info.")
+  add_compile_options(-O0 -g -fprofile-arcs -ftest-coverage)
+  add_link_options(-fprofile-arcs -ftest-coverage)
 endif()
 
 ##############################
