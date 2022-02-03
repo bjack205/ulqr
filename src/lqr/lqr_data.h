@@ -63,6 +63,8 @@ typedef struct {
   double* A;
   double* B;
   double* d;
+  int datasize;  ///< number of doubles needed to store the data
+  bool isowner;
 } LQRData;
 
 /**
@@ -88,13 +90,16 @@ int ulqr_InitializeLQRData(LQRData* lqrdata, double* Q, double* R, double* H, do
 /**
  * @brief Allocate memory for a new LQRData structure
  *
- * Must be paired with a single call to  ulqr_FreeLQRData().
+ * Must be paired with a single call to ulqr_FreeLQRData().
  *
  * @param nstates Length of the state vector
  * @param ninputs Number of control inputs
+ * @param data    Pointer to memory where the data should be stored. 
+ *                If NULL, the data will be allocated by this function,
+ *                otherwise the data is assumed to be owned by the caller.
  * @return 0 if successful
  */
-LQRData* ulqr_NewLQRData(int nstates, int ninputs);
+LQRData* ulqr_NewLQRData(int nstates, int ninputs, double* data);
 
 /**
  * @brief Free the memory for and LQRData object
@@ -104,6 +109,7 @@ LQRData* ulqr_NewLQRData(int nstates, int ninputs);
  * @return 0 if successful
  */
 int ulqr_FreeLQRData(LQRData** lqrdata);
+
 
 /**
  * @brief Copies one LQRData object to another

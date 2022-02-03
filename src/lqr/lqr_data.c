@@ -23,12 +23,21 @@ int ulqr_InitializeLQRData(LQRData* lqrdata, double* Q, double* R, double* H, do
   return 0;
 }
 
-LQRData* ulqr_NewLQRData(int nstates, int ninputs) {
+LQRData* ulqr_NewLQRData(int nstates, int ninputs, double* data) {
+  if (nstates < 1 || ninputs < 1) {
+    printf("ERROR: nstates and ninputs must be positive integers.");
+    return NULL;
+  }
+
   int cost_size = (nstates + 1) * nstates + (ninputs + 1) * ninputs + nstates * ninputs +
                   1;                                                    // Q,R,q,r,c
   int dynamics_size = nstates * nstates + nstates * ninputs + nstates;  // A,B,d
   int total_size = cost_size + dynamics_size;
-  double* data = (double*)malloc(total_size * sizeof(double));
+
+  bool isowner = data == NULL;
+  if (isowner) {
+    data = (double*)malloc(total_size * sizeof(double));
+  }
   double* Q = data;
   double* R = Q + nstates * nstates;
   double* H = R + ninputs * ninputs;
@@ -50,13 +59,15 @@ LQRData* ulqr_NewLQRData(int nstates, int ninputs) {
   lqrdata->A = A;
   lqrdata->B = B;
   lqrdata->d = d;
+  lqrdata->datasize = total_size;
+  lqrdata->isowner = isowner;
   return lqrdata;
 }
 
 int ulqr_FreeLQRData(LQRData** lqrdata_ptr) {
   LQRData* lqrdata = *lqrdata_ptr; 
   if (!lqrdata) { return -1; }
-  if (lqrdata->Q) {
+  if (lqrdata->isowner && lqrdata->Q) {
     free(lqrdata->Q);  // This points to the beginning of the allocated memory block
   }
   free(lqrdata);
@@ -70,12 +81,7 @@ int ulqr_CopyLQRData(LQRData* dest, LQRData* src) {
             dest->nstates, dest->ninputs, src->nstates, src->ninputs);
     return -1;
   }
-  int nstates = dest->nstates;
-  int ninputs = dest->ninputs;
-  int cost_size = (nstates + 1) * nstates + (ninputs + 1) * ninputs + nstates * ninputs +
-                  1;                                                    // Q,R,q,r,c
-  int dynamics_size = nstates * nstates + nstates * ninputs + nstates;  // A,B,d
-  int total_size = cost_size + dynamics_size;
+  int total_size = src->datasize; 
   memcpy(dest->Q, src->Q, total_size * sizeof(double));
   return 0;
 }
