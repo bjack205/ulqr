@@ -1,0 +1,19 @@
+name: Formatting
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  formatting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2 
+    - name: Install Dependencies
+      run: sudo apt-get install clang-format -y
+
+    - name: Run Format Check
+      working-directory: ${{ github.workspace }}
+      run: clang-format --dry-run --Werror src/**/*.c src/**/*.h test/**/*.c test/**/*.h
