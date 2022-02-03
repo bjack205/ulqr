@@ -5,3 +5,5 @@ add_library(slap
     linalg.h
     linalg.c
 )
+
+add_target_to_install(slap)
