@@ -7,7 +7,6 @@
 #include "eigen_c/eigen_c.h"
 #endif
 
-
 int MatMul() {
   // Matrix-matrix
   Matrix A = slap_NewMatrix(3, 4);
