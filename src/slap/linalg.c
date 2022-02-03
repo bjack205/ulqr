@@ -19,7 +19,8 @@ int slap_MatrixScale(Matrix* A, double alpha) {
 
 int slap_MatrixMultiply(Matrix* A, Matrix* B, Matrix* C, bool tA, bool tB, double alpha,
                         double beta) {
-  int n, m;
+  int n;
+  int m;
   if (tA) {
     n = A->cols;
     m = A->rows;
@@ -44,7 +45,8 @@ int slap_MatrixMultiply(Matrix* A, Matrix* B, Matrix* C, bool tA, bool tB, doubl
 
 int slap_SymmetricMatrixMultiply(Matrix* Asym, Matrix* B, Matrix* C, double alpha,
                                  double beta) {
-  int n, m;
+  int n;
+  int m;
   bool tA = false;
   bool tB = false;
   if (tA) {

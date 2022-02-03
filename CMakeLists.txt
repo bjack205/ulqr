@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.0.0)
 list(APPEND CMAKE_MESSAGE_CONTEXT ulqr)
 project(ulqr VERSION 0.1.0 LANGUAGES C)
 
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
 # Include useful modules
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 include(CMakePrintHelpers)
@@ -17,6 +20,10 @@ file(RELATIVE_PATH relDir
   ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}
 )
 set(CMAKE_INSTALL_RPATH $ORIGIN $ORIGIN/${relDir})
+
+# Add compile options
+add_compile_options(-Wall -Wextra -pedantic -Werror -Wno-error=unknown-pragmas)
+add_compile_options(-mavx2 -mfma)
 
 ##############################
 # Options
@@ -46,6 +53,9 @@ option(ULQR_BUILD_DOCS "Build documentation for ulqr." OFF)
 
 # Code Coverage
 option(ULQR_CODE_COVERAGE "Compile ulqr with code coverage information." OFF)
+
+# Enable clang-tidy analysis 
+option(ULQR_CLANG_TIDY "Run clang-tidy analyzer on the source code." OFF) 
 
 ##############################
 # Dependencies

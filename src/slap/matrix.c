@@ -17,7 +17,9 @@ Matrix slap_NewMatrix(int rows, int cols) {
 }
 
 int slap_MatrixSetConst(Matrix* mat, double val) {
-  if (!mat) return -1;
+  if (!mat) {
+    return -1;
+  }
   for (int i = 0; i < slap_MatrixNumElements(mat); ++i) {
     mat->data[i] = val;
   }
@@ -36,32 +38,46 @@ int slap_FreeMatrix(Matrix* mat) {
 }
 
 int slap_MatrixNumElements(const Matrix* mat) {
-  if (!mat) return -1;
+  if (!mat) {
+    return -1;
+  }
   return mat->rows * mat->cols;
 }
 
 int slap_MatrixGetLinearIndex(const Matrix* mat, int row, int col) {
-  if (!mat) return -1;
-  if (row < 0 || col < 0) return -1;
+  if (!mat) {
+    return -1;
+  }
+  if (row < 0 || col < 0) {
+    return -1;
+  }
   return row + mat->rows * col;
 }
 
 double* slap_MatrixGetElement(const Matrix* mat, int row, int col) {
-  if (!mat) return NULL;
+  if (!mat) {
+    return NULL;
+  }
   return mat->data + slap_MatrixGetLinearIndex(mat, row, col);
 }
 
 double* slap_MatrixGetElementTranspose(const Matrix* mat, int row, int col,
                                        bool istranposed) {
+  double* out;
   if (!istranposed) {
-    return slap_MatrixGetElement(mat, row, col);
+    out = slap_MatrixGetElement(mat, row, col);
   } else {
-    return slap_MatrixGetElement(mat, col, row);
+    int row_transpose = col;
+    int col_transpose = row;
+    out = slap_MatrixGetElement(mat, row_transpose, col_transpose);
   }
+  return out;
 }
 
 int slap_MatrixSetElement(Matrix* mat, int row, int col, double val) {
-  if (!mat) return -1;
+  if (!mat) {
+    return -1;
+  }
   int linear_index = slap_MatrixGetLinearIndex(mat, row, col);
   if (linear_index >= 0) {
     mat->data[linear_index] = val;
@@ -72,17 +88,21 @@ int slap_MatrixSetElement(Matrix* mat, int row, int col, double val) {
 }
 
 int slap_MatrixCopy(Matrix* dest, Matrix* src) {
-  if (!dest || !src) return -1;
+  if (!dest || !src) {
+    return -1;
+  }
   if ((dest->rows != src->rows) || (dest->cols != src->cols)) {
     fprintf(stderr, "Can't copy matrices of different sizes.\n");
     return -1;
   }
-  memcpy(dest->data, src->data, slap_MatrixNumElements(dest) * sizeof(double));
+  memcpy(dest->data, src->data, slap_MatrixNumElements(dest) * sizeof(double));  // NOLINT
   return 0;
 }
 
 int slap_MatrixCopyTranspose(Matrix* dest, Matrix* src) {
-  if (!dest || !src) return -1;
+  if (!dest || !src) {
+    return -1;
+  }
   if ((dest->rows != src->cols) || (dest->cols != src->rows)) {
     fprintf(stderr,
             "Matrix sizes are not transposes of each other. Got (%d,%d) and (%d,%d).\n",
@@ -100,7 +120,9 @@ int slap_MatrixCopyTranspose(Matrix* dest, Matrix* src) {
 }
 
 int slap_MatrixScaleByConst(Matrix* mat, double alpha) {
-  if (!mat) return -1;
+  if (!mat) {
+    return -1;
+  }
   for (int i = 0; i < slap_MatrixNumElements(mat); ++i) {
     mat->data[i] *= alpha;
   }
@@ -108,7 +130,9 @@ int slap_MatrixScaleByConst(Matrix* mat, double alpha) {
 }
 
 double slap_MatrixNormedDifference(Matrix* A, Matrix* B) {
-  if (!A || !B) return INFINITY;
+  if (!A || !B) {
+    return INFINITY;
+  }
   if ((A->rows != B->rows) || (A->cols != B->cols)) {
     fprintf(stderr, "Can't compare matrices of different sizes. Got (%d,%d) and (%d,%d)\n",
             A->rows, A->cols, B->rows, B->cols);
@@ -124,7 +148,9 @@ double slap_MatrixNormedDifference(Matrix* A, Matrix* B) {
 }
 
 int slap_MatrixFlatten(Matrix* mat) {
-  if (!mat) return -1;
+  if (!mat) {
+    return -1;
+  }
   int size = slap_MatrixNumElements(mat);
   mat->rows = size;
   mat->cols = 1;
@@ -132,7 +158,9 @@ int slap_MatrixFlatten(Matrix* mat) {
 }
 
 int slap_MatrixFlattenToRow(Matrix* mat) {
-  if (!mat) return -1;
+  if (!mat) {
+    return -1;
+  }
   int size = slap_MatrixNumElements(mat);
   mat->rows = 1;
   mat->cols = size;
@@ -140,7 +168,9 @@ int slap_MatrixFlattenToRow(Matrix* mat) {
 }
 
 int slap_PrintMatrix(const Matrix* mat) {
-  if (!mat) return -1;
+  if (!mat) {
+    return -1;
+  }
   for (int row = 0; row < mat->rows; ++row) {
     for (int col = 0; col < mat->cols; ++col) {
       printf("% 6.*g ", PRECISION, *slap_MatrixGetElement(mat, row, col));
@@ -151,7 +181,9 @@ int slap_PrintMatrix(const Matrix* mat) {
 }
 
 int slap_PrintRowVector(const Matrix* mat) {
-  if (!mat) return -1;
+  if (!mat) {
+    return -1;
+  }
   printf("[ ");
   for (int i = 0; i < slap_MatrixNumElements(mat); ++i) {
     printf("% 6.*g ", PRECISION, mat->data[i]);
