@@ -1,21 +1,18 @@
-name: Formatting
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+name: Formatting 
+on: [push, pull_request]
 jobs:
-  formatting:
+  formatting-check:
+    name: Formatting Check
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        path:
+          - 'src'
+          - 'test'
     steps:
-    - uses: actions/checkout@v2 
-    - name: Install Dependencies
-      run: sudo apt-get install clang-format -y
-
-    - name: Run Format Check
-      working-directory: ${{ github.workspace }}
-      run: |
-        shopt -s globstar
-        clang-format --dry-run --Werror src/**/*.c src/**/*.h test/**/*.c test/**/*.h
+    - uses: actions/checkout@v2
+    - name: Clang-Format Check 
+      uses: jidicula/clang-format-action@v4.5.0
+      with:
+        clang-format-version: '13'
+        check-path: ${{ matrix.path }}
