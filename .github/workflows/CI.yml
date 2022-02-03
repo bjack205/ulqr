@@ -21,10 +21,6 @@ jobs:
         compiler:
           - [gcc, g++]
           - [clang, clang++]
-        linalg:
-          - InternalRoutines
-          - Eigen
-          - BLAS
 
     steps:
     - uses: actions/checkout@v2
