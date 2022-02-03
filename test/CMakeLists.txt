@@ -29,3 +29,4 @@ target_include_directories(simpletest
 # Add tests
 add_ulqr_test(simple)
 add_ulqr_test(matrix)
+add_ulqr_test(linalg)
