@@ -11,6 +11,7 @@ function (add_ulqr_test name)
     PRIVATE 
     simpletest 
     slap 
+    lqrdata
     m  # math library
   )
   add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
@@ -30,3 +31,4 @@ target_include_directories(simpletest
 add_ulqr_test(simple)
 add_ulqr_test(matrix)
 add_ulqr_test(linalg)
+add_ulqr_test(lqrdata)

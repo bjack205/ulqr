@@ -11,3 +11,4 @@ if (ULQR_CLANG_TIDY AND (CMAKE_C_COMPILER_ID STREQUAL "Clang"))
 endif()
 
 add_subdirectory(slap)
+add_subdirectory(lqr)
