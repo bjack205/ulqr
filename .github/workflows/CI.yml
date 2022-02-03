@@ -50,6 +50,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: true
+        fetch-depth: 0
     - name: Install Dependencies
       run: sudo apt-get install libeigen3-dev -y
     - name: Configure CMake
