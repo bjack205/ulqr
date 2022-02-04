@@ -186,9 +186,10 @@ int slap_MatrixCopy(Matrix* dest, Matrix* src);
 
 /**
  * @brief Copy the data from an array into the matrix, columnwise.
- * 
+ *
  * @param mat  Matrix with nonzero size
- * @param data Data to be copied into the array. Must have length of at least mat.rows * mat.cols.
+ * @param data Data to be copied into the array. Must have length of at least mat.rows *
+ * mat.cols.
  * @return 0 if successful
  */
 int slap_MatrixCopyFromArray(Matrix* mat, const double* data);
@@ -257,9 +258,9 @@ int slap_PrintRowVector(const Matrix* mat);
 
 /**
  * @brief Set the dimensions of the matrix
- * 
+ *
  * Note that this does not change the underlying data, only it's interpretation.
- * 
+ *
  * @param mat  Matrix
  * @param rows New number of rows
  * @param cols New number of columns

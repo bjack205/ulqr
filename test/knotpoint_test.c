@@ -37,7 +37,7 @@ void TestInitializeKnotPoint() {
 
   ulqr_InitializeKnotPoint(&z, 0, ninputs, zdata, t, h);
   TEST(out == kBadInput);
-  
+
   ulqr_InitializeKnotPoint(&z, nstates, ninputs, NULL, t, h);
   TEST(out == kBadInput);
 

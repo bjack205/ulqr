@@ -1,8 +1,9 @@
+#include "riccati/riccati_solver.h"
+
 #include <stdlib.h>
 
 #include "riccati/constants.h"
 #include "simpletest/simpletest.h"
-#include "riccati/riccati_solver.h"
 #include "slap/linalg.h"
 #include "test_utils.h"
 

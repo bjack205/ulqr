@@ -147,7 +147,7 @@ double slap_TwoNorm(const Matrix* M) {
   double norm = 0.0;
   for (int i = 0; i < slap_MatrixNumElements(M); ++i) {
     double x = M->data[i];
-    norm += x * x; 
+    norm += x * x;
   }
   return sqrt(norm);
 }

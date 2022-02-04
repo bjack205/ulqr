@@ -101,7 +101,6 @@ int ulqr_CopyLQRData(LQRData* dest, LQRData* src) {
   return 0;
 }
 
-
 int LQRDataSize(int nstates, int ninputs) {
   int cost_size = (nstates + 1) * nstates + (ninputs + 1) * ninputs + nstates * ninputs +
                   1;                                                    // Q,R,q,r,c

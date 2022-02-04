@@ -101,7 +101,6 @@ enum ulqr_ReturnCode ulqr_InitializeLQRData(LQRData* lqrdata, int nstates, int n
  */
 int ulqr_CopyLQRData(LQRData* dest, LQRData* src);
 
-
 int LQRDataSize(int nstates, int ninputs);
 
 /**@} */

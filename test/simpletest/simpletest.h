@@ -18,7 +18,7 @@
  * Then, after calling all your test code, return the output of TestResult() from
  * your main function. Optionally, you can use PrintTestStatus() before you return
  * to print the results.
- * 
+ *
  * For convenience, this package also provides the TESTAPPROX(a,b,tol) macro which calls
  * ~~~
  * TEST(fabs(a - b) < tol)
@@ -59,7 +59,7 @@
     }                                       \
   } while (0)
 
-#define TESTAPPROX(a,b,tol) TEST(fabs((a) - (b)) < tol)
+#define TESTAPPROX(a, b, tol) TEST(fabs((a) - (b)) < tol)
 
 void TestPass();
 void TestFail();
