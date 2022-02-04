@@ -3,11 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "slap/matrix.h"
 
-int ulqr_InitializeLQRData(LQRData* lqrdata, double* Q, double* R, double* H, double* q, double* r,
-                           double c, double* A, double* B, double* d) {
-  if (!lqrdata || !Q || !R || !H || !q || !r || !A || !B || !d) { 
-    return -1; 
+int ulqr_InitializeLQRData(LQRData* lqrdata, double* Q, double* R, double* H, double* q,
+                           double* r, double c, double* A, double* B, double* d) {
+  if (!lqrdata || !Q || !R || !H || !q || !r || !A || !B || !d) {
+    return -1;
   }
   int nstates = lqrdata->nstates;
   int ninputs = lqrdata->ninputs;
@@ -42,7 +43,19 @@ LQRData* ulqr_NewLQRData(int nstates, int ninputs, double* data) {
   double* c = r + ninputs;
   double* A = c + 1;
   double* B = A + nstates * nstates;
-  double* d = B + nstates * ninputs;
+  double* f = B + nstates * ninputs;
+  double* K = f + nstates;
+  double* d = K + nstates * ninputs;
+  double* P = d + ninputs;
+  double* p = P + nstates * nstates;
+  double* Qxx = p + nstates;
+  double* Quu = Qxx + nstates * nstates;
+  double* Qux = Quu + ninputs * ninputs;
+  double* Qx = Qux + ninputs * nstates;
+  double* Qu = Qx + nstates;
+  double* x = Qu + ninputs;
+  double* u = x + nstates;
+  double* y = u + ninputs;
 
   LQRData* lqrdata = (LQRData*)malloc(sizeof(LQRData));
   lqrdata->nstates = nstates;
@@ -55,25 +68,40 @@ LQRData* ulqr_NewLQRData(int nstates, int ninputs, double* data) {
   lqrdata->c = c;
   lqrdata->A.data = A;
   lqrdata->B.data = B;
+  lqrdata->f.data = f;
+  lqrdata->K.data = K;
   lqrdata->d.data = d;
+  lqrdata->P.data = P;
+  lqrdata->p.data = p;
+  lqrdata->Qxx.data = Qxx;
+  lqrdata->Quu.data = Quu;
+  lqrdata->Qux.data = Qux;
+  lqrdata->q.data = q;
+  lqrdata->r.data = r;
+  lqrdata->x.data = x;
+  lqrdata->u.data = u;
+  lqrdata->y.data = y;
 
-  lqrdata->Q.rows = nstates;
-  lqrdata->Q.cols = nstates;
-  lqrdata->H.rows = ninputs;
-  lqrdata->H.cols = nstates;
-  lqrdata->R.rows = ninputs;
-  lqrdata->R.cols = ninputs;
-  lqrdata->q.rows = nstates;
-  lqrdata->q.cols = 1;
-  lqrdata->r.rows = ninputs;
-  lqrdata->r.cols = 1;
-
-  lqrdata->A.rows = nstates;
-  lqrdata->A.cols = nstates;
-  lqrdata->B.rows = nstates;
-  lqrdata->B.cols = ninputs;
-  lqrdata->d.rows = nstates;
-  lqrdata->d.cols = 1;
+  slap_SetMatrixSize(&lqrdata->Q, nstates, nstates);
+  slap_SetMatrixSize(&lqrdata->R, ninputs, ninputs);
+  slap_SetMatrixSize(&lqrdata->H, ninputs, nstates);
+  slap_SetMatrixSize(&lqrdata->q, nstates, 1);
+  slap_SetMatrixSize(&lqrdata->r, ninputs, 1);
+  slap_SetMatrixSize(&lqrdata->A, nstates, nstates);
+  slap_SetMatrixSize(&lqrdata->B, nstates, ninputs);
+  slap_SetMatrixSize(&lqrdata->d, nstates, 1);
+  slap_SetMatrixSize(&lqrdata->K, ninputs, nstates);
+  slap_SetMatrixSize(&lqrdata->K, ninputs, 1);
+  slap_SetMatrixSize(&lqrdata->P, nstates, nstates);
+  slap_SetMatrixSize(&lqrdata->p, nstates, 1);
+  slap_SetMatrixSize(&lqrdata->Qxx, nstates, nstates);
+  slap_SetMatrixSize(&lqrdata->Quu, ninputs, ninputs);
+  slap_SetMatrixSize(&lqrdata->Qux, ninputs, nstates);
+  slap_SetMatrixSize(&lqrdata->Qx, nstates, 1);
+  slap_SetMatrixSize(&lqrdata->Qu, ninputs, 1);
+  slap_SetMatrixSize(&lqrdata->x, nstates, 1);
+  slap_SetMatrixSize(&lqrdata->u, ninputs, 1);
+  slap_SetMatrixSize(&lqrdata->y, nstates, 1);
 
   lqrdata->datasize = total_size;
   lqrdata->_isowner = isowner;
@@ -81,8 +109,10 @@ LQRData* ulqr_NewLQRData(int nstates, int ninputs, double* data) {
 }
 
 int ulqr_FreeLQRData(LQRData** lqrdata_ptr) {
-  LQRData* lqrdata = *lqrdata_ptr; 
-  if (!lqrdata) { return -1; }
+  LQRData* lqrdata = *lqrdata_ptr;
+  if (!lqrdata) {
+    return -1;
+  }
   if (lqrdata->_isowner && lqrdata->Q.data) {
     free(lqrdata->Q.data);  // This points to the beginning of the allocated memory block
   }
@@ -97,7 +127,7 @@ int ulqr_CopyLQRData(LQRData* dest, LQRData* src) {
             dest->nstates, dest->ninputs, src->nstates, src->ninputs);
     return -1;
   }
-  int total_size = src->datasize; 
+  int total_size = src->datasize;
   memcpy(dest->Q.data, src->Q.data, total_size * sizeof(double));
   return 0;
 }
@@ -147,6 +177,11 @@ int LQRDataSize(int nstates, int ninputs) {
   int cost_size = (nstates + 1) * nstates + (ninputs + 1) * ninputs + nstates * ninputs +
                   1;                                                    // Q,R,q,r,c
   int dynamics_size = nstates * nstates + nstates * ninputs + nstates;  // A,B,d
-  int total_size = cost_size + dynamics_size;
+  int gains_size = ninputs * (nstates + 1);
+  int ctg_size = nstates * (nstates + 1);
+  int action_value_size = cost_size - 1;
+  int vec_size = 2 * nstates + ninputs;
+  int total_size =
+      cost_size + dynamics_size + gains_size + ctg_size + action_value_size + vec_size;
   return total_size;
 }

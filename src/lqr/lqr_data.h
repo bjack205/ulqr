@@ -62,7 +62,20 @@ typedef struct {
   double* c;
   Matrix A;
   Matrix B;
-  Matrix d;
+  Matrix f;
+  Matrix K;    ///< Feedback gain
+  Matrix d;    ///< Feedforward gain
+  Matrix P;    ///< Hessian of the cost-to-go
+  Matrix p;    ///< gradient fo the cost-to-go
+  Matrix Qxx;  ///< Action-value state Hessian
+  Matrix Quu;  ///< Action-value control Hessian
+  Matrix Qux;  ///< Action-value Hessian cross-term
+  Matrix Qx;   ///< Action-value state gradient
+  Matrix Qu;   ///< Action-value control gradient
+  Matrix x;    ///< state vector
+  Matrix u;    ///< control vector
+  Matrix y;    ///< dual variable
+
   int datasize;  ///< number of doubles needed to store the data
   bool _isowner;
 } LQRData;
