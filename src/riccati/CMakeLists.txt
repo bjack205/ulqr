@@ -8,8 +8,8 @@ add_library(riccati
   riccati_solver.h
   riccati_solver.c
 
-  # riccati_solve.h
-  # riccati_solve.c
+  riccati_solve.h
+  riccati_solve.c
 )
 target_link_libraries(riccati
   PUBLIC
