@@ -101,26 +101,6 @@ int ulqr_CopyLQRData(LQRData* dest, LQRData* src) {
   return 0;
 }
 
-Matrix* ulqr_GetA(LQRData* lqrdata) { return &lqrdata->A; }
-Matrix* ulqr_GetB(LQRData* lqrdata) { return &lqrdata->B; }
-Matrix* ulqr_Getf(LQRData* lqrdata) { return &lqrdata->f; }
-Matrix* ulqr_GetQ(LQRData* lqrdata) { return &lqrdata->Q; }
-Matrix* ulqr_GetR(LQRData* lqrdata) { return &lqrdata->R; }
-Matrix* ulqr_GetH(LQRData* lqrdata) { return &lqrdata->H; }
-Matrix* ulqr_Getq(LQRData* lqrdata) { return &lqrdata->q; }
-Matrix* ulqr_Getr(LQRData* lqrdata) { return &lqrdata->r; }
-double ulqr_Getc(LQRData* lqrdata) { return *lqrdata->c; }
-
-Matrix* ulqr_GetFeedbackGain(LQRData* lqrdata) { return &lqrdata->K; }
-Matrix* ulqr_GetFeedforwardGain(LQRData* lqrdata) { return &lqrdata->d; }
-Matrix* ulqr_GetCostToGoHessian(LQRData* lqrdata) { return &lqrdata->P; }
-Matrix* ulqr_GetCostToGoGradient(LQRData* lqrdata) { return &lqrdata->p; }
-Matrix* ulqr_GetQxx(LQRData* lqrdata) { return &lqrdata->Qxx; }
-Matrix* ulqr_GetQuu(LQRData* lqrdata) { return &lqrdata->Quu; }
-Matrix* ulqr_GetQux(LQRData* lqrdata) { return &lqrdata->Qux; }
-Matrix* ulqr_GetQx(LQRData* lqrdata) { return &lqrdata->Qx; }
-Matrix* ulqr_GetQu(LQRData* lqrdata) { return &lqrdata->Qu; }
-Matrix* ulqr_GetDual(LQRData* lqrdata) { return &lqrdata->y; }
 
 int LQRDataSize(int nstates, int ninputs) {
   int cost_size = (nstates + 1) * nstates + (ninputs + 1) * ninputs + nstates * ninputs +

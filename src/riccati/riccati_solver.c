@@ -8,6 +8,15 @@
 #include "lqr_data.h"
 #include "slap/matrix.h"
 
+bool CheckBadIndex(RiccatiSolver* solver, int k) {
+  if (k < 0 || k > solver->nhorizon) {
+    printf("ERROR: Invalid knot point range. Must be in interval [0,%d)\n",
+           solver->nhorizon);
+    return true;
+  }
+  return false;
+}
+
 RiccatiSolver* ulqr_NewRiccatiSolver(int nstates, int ninputs, int nhorizon) {
   int nvars = (2 * nstates + ninputs) * nhorizon - ninputs;
 
@@ -103,6 +112,19 @@ int ulqr_FreeRiccatiSolver(RiccatiSolver** solver_ptr) {
   return 0;
 }
 
+enum ulqr_ReturnCode ulqr_SetInitialState(RiccatiSolver* solver, double* x0) {
+  int out = kOk;
+  if (solver) {
+    int slap_out = slap_MatrixCopyFromArray(&solver->x0, x0);
+    if (slap_out != 0) {
+      out = kLinearAlgebraError;
+    }
+  } else {
+    out = kBadInput;
+  }
+  return out;
+}
+
 int ulqr_PrintRiccatiSummary(RiccatiSolver* solver) {
   if (!solver) {
     return -1;
@@ -118,3 +140,72 @@ int ulqr_PrintRiccatiSummary(RiccatiSolver* solver) {
 }
 
 int ulqr_GetNumVars(RiccatiSolver* solver) { return solver->nvars; }
+
+enum ulqr_ReturnCode ulqr_SetCost(RiccatiSolver* solver, const double* Q, const double* R,
+                                  const double* H, const double* q, const double* r,
+                                  double c, int k_start, int k_end) {
+  // Check inputs
+  if (!solver) {
+    return kBadInput;
+  }
+  if (!Q || !R) {
+    printf("ERROR: Both Q and R must be specified when setting the cost.\n");
+    return kBadInput;
+  }
+  if (CheckBadIndex(solver, k_start)) {
+    return kBadInput;
+  }
+  if (CheckBadIndex(solver, k_end)) {
+    return kBadInput;
+  }
+  if (k_start >= k_end) {
+    printf("WARNING: Specified an empty knot point interval: [%d,%d).\n", k_start, k_end);
+  }
+
+  // Copy into problem
+  for (int k = k_start; k < k_end; ++k) {
+    LQRData* lqrdata = solver->lqrdata + k;
+    slap_MatrixCopyFromArray(&lqrdata->Q, Q);
+    slap_MatrixCopyFromArray(&lqrdata->R, R);
+    if (H) {
+      slap_MatrixCopyFromArray(&lqrdata->H, H);
+    }
+    if (q) {
+      slap_MatrixCopyFromArray(&lqrdata->q, q);
+    }
+    if (r) {
+      slap_MatrixCopyFromArray(&lqrdata->r, r);
+    }
+    *lqrdata->c = c;
+  }
+  return kOk;
+}
+
+Matrix* ulqr_GetA(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->A; }
+Matrix* ulqr_GetB(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->B; }
+Matrix* ulqr_Getf(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->f; }
+Matrix* ulqr_GetQ(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->Q; }
+Matrix* ulqr_GetR(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->R; }
+Matrix* ulqr_GetH(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->H; }
+Matrix* ulqr_Getq(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->q; }
+Matrix* ulqr_Getr(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->r; }
+double ulqr_Getc(RiccatiSolver* solver, int k) { return *(solver->lqrdata + k)->c; }
+
+Matrix* ulqr_GetFeedbackGain(RiccatiSolver* solver, int k) {
+  return &(solver->lqrdata + k)->K;
+}
+Matrix* ulqr_GetFeedforwardGain(RiccatiSolver* solver, int k) {
+  return &(solver->lqrdata + k)->d;
+}
+Matrix* ulqr_GetCostToGoHessian(RiccatiSolver* solver, int k) {
+  return &(solver->lqrdata + k)->P;
+}
+Matrix* ulqr_GetCostToGoGradient(RiccatiSolver* solver, int k) {
+  return &(solver->lqrdata + k)->p;
+}
+Matrix* ulqr_GetQxx(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->Qxx; }
+Matrix* ulqr_GetQuu(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->Quu; }
+Matrix* ulqr_GetQux(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->Qux; }
+Matrix* ulqr_GetQx(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->Qx; }
+Matrix* ulqr_GetQu(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->Qu; }
+Matrix* ulqr_GetDual(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->y; }

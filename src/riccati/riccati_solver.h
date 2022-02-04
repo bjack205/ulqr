@@ -12,8 +12,9 @@
  */
 #pragma once
 
-#include "lqr_data.h"
 #include "knotpoint.h"
+#include "lqr_data.h"
+#include "riccati/constants.h"
 
 /**
  * @brief Solver that uses Riccati recursion to solve an LQR problem.
@@ -115,6 +116,52 @@ int ulqr_PrintRiccatiSummary(RiccatiSolver* solver);
 
 int ulqr_GetNumVars(RiccatiSolver* solver);
 
+/**
+ * @brief Set the initial state
+ *
+ * @param solver Initialized RiccatiSolver
+ * @param x0     Initial state. Length must be at least solver->nstates
+ * @return       Info code
+ */
+enum ulqr_ReturnCode ulqr_SetInitialState(RiccatiSolver* solver, double* x0);
 
+enum ulqr_ReturnCode ulqr_SetCost(RiccatiSolver* solver, const double* Q, const double* R,
+                                  const double* H, const double* q, const double* r,
+                                  double c, int k_start, int k_end);
+
+/*************************
+ *       Getters
+ *************************/
+Matrix* ulqr_GetA(RiccatiSolver* solver,
+                  int k);  ///< @brief Get (n,n) state transition matrix
+Matrix* ulqr_GetB(RiccatiSolver* solver, int k);  ///< @brief Get (n,m) control input matrix
+Matrix* ulqr_Getf(RiccatiSolver* solver, int k);  ///< @brief Get (n,) affine dynamice term
+Matrix* ulqr_GetQ(RiccatiSolver* solver, int k);  ///< @brief Get state cost Hessian
+Matrix* ulqr_GetR(RiccatiSolver* solver, int k);  ///< @brief Get control cost Hessian
+Matrix* ulqr_GetH(RiccatiSolver* solver,
+                  int k);  ///< @brief Get cost Hessian cross-term (m,n)
+Matrix* ulqr_Getq(RiccatiSolver* solver, int k);  ///< @brief Get affine state cost
+Matrix* ulqr_Getr(RiccatiSolver* solver, int k);  ///< @brief Get affine control cost
+double ulqr_Getc(RiccatiSolver* solver, int k);   ///< @brief Get cost constant
+
+Matrix* ulqr_GetFeedbackGain(RiccatiSolver* solver,
+                             int k);  ///< @brief Get (m,n) feedback gain
+Matrix* ulqr_GetFeedforwardGain(RiccatiSolver* solver,
+                                int k);  ///< @brief Get (m,) feedforward gain
+Matrix* ulqr_GetCostToGoHessian(RiccatiSolver* solver,
+                                int k);  ///< @brief Get (n,n) Hessian of the cost-to-go
+Matrix* ulqr_GetCostToGoGradient(RiccatiSolver* solver,
+                                 int k);  ///< @brief Get (n,) Gradient of the cost-to-go
+Matrix* ulqr_GetQxx(RiccatiSolver* solver,
+                    int k);  ///< @brief Get (n,n) Action-value state Hessian
+Matrix* ulqr_GetQuu(RiccatiSolver* solver,
+                    int k);  ///< @brief Get (m,m) Action-value control Hessian
+Matrix* ulqr_GetQux(RiccatiSolver* solver,
+                    int k);  ///< @brief Get (m,n) Action-value Hessian cross-term
+Matrix* ulqr_GetQx(RiccatiSolver* solver,
+                   int k);  ///< @brief Get (n,) Action-value state gradient
+Matrix* ulqr_GetQu(RiccatiSolver* solver,
+                   int k);  ///< @brief Get (m,) Action-value conrol gradient
+Matrix* ulqr_GetDual(RiccatiSolver* solver, int k);  ///< @brief Get (n,n) dual vector
 
 /**@} */

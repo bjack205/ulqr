@@ -1,3 +1,3 @@
 #pragma once
 
-double SumOfSquaredError(double* x, double* y, int len);
+double SumOfSquaredError(const double* x, const double* y, int len);

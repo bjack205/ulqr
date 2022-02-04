@@ -8,4 +8,5 @@ enum ulqr_ReturnCode {
   kOk = 0,
   kBadInput,
   kFailedMemoryAllocation,
+  kLinearAlgebraError,
 };
