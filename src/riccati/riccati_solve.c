@@ -9,7 +9,9 @@
 #include "slap/matrix.h"
 
 int ulqr_SolveRiccati(RiccatiSolver* solver) {
-  if (!solver) { return -1; }
+  if (!solver) {
+    return -1;
+  }
   clock_t t_start_total = clock();
 
   ulqr_BackwardPass(solver);
@@ -138,7 +140,7 @@ int ulqr_ForwardPass(RiccatiSolver* solver) {
     Matrix* Kk = ulqr_GetFeedbackGain(solver, k);
     Matrix* dk = ulqr_GetFeedforwardGain(solver, k);
     Matrix* xk = ulqr_GetState(solver, k);
-    Matrix* uk = ulqr_GetInput(solver, k); 
+    Matrix* uk = ulqr_GetInput(solver, k);
     Matrix* yk = ulqr_GetDual(solver, k);
     Matrix* xn = ulqr_GetState(solver, k + 1);
 
@@ -150,10 +152,10 @@ int ulqr_ForwardPass(RiccatiSolver* solver) {
     slap_MatrixMultiply(A, xk, xn, 0, 0, 1.0, 1.0);  // xn = A * x + f
     slap_MatrixMultiply(B, uk, xn, 0, 0, 1.0, 1.0);  // xn = A * x + B * u + f
   }
-  Matrix* Pk = ulqr_GetCostToGoHessian(solver, k); 
+  Matrix* Pk = ulqr_GetCostToGoHessian(solver, k);
   Matrix* pk = ulqr_GetCostToGoGradient(solver, k);
   Matrix* xk = ulqr_GetState(solver, k);
-  Matrix* yk = ulqr_GetDual(solver, k); 
+  Matrix* yk = ulqr_GetDual(solver, k);
   slap_MatrixCopy(yk, pk);
   slap_MatrixMultiply(Pk, xk, yk, 0, 0, 1.0, 1.0);  // y = P * x + p
   return 0;
