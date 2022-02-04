@@ -13,6 +13,7 @@
 #pragma once
 
 #include "lqr_data.h"
+#include "knotpoint.h"
 
 /**
  * @brief Solver that uses Riccati recursion to solve an LQR problem.
@@ -64,8 +65,9 @@ typedef struct {
   int nstates;   ///< size of state vector (n)
   int ninputs;   ///< number of control inputs (m)
   int nvars;     ///< total number of decision variables, including the dual variables
+  KnotPoint* Z;  ///< state and control trajectory
+  LQRData* lqrdata;  ///< LQR Problem data
   double* data;  ///< pointer to the beginning of the single block of memory allocated by the solver
-  LQRData** lqrdata;  ///< LQR Problem data
   Matrix x0;    ///< Initial state
   double t_solve_ms;          ///< Total solve time in milliseconds
   double t_backward_pass_ms;  ///< Time spent in the backward pass in milliseconds

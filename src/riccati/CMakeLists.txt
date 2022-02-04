@@ -5,8 +5,8 @@ add_library(riccati
   lqr_data.h
   lqr_data.c
 
-  # riccati_solver.h
-  # riccati_solver.c
+  riccati_solver.h
+  riccati_solver.c
 
   # riccati_solve.h
   # riccati_solve.c

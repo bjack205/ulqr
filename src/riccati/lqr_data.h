@@ -123,8 +123,6 @@ Matrix* ulqr_GetQux(
     LQRData* lqrdata);                 ///< @brief Get (m,n) Action-value Hessian cross-term
 Matrix* ulqr_GetQx(LQRData* lqrdata);  ///< @brief Get (n,) Action-value state gradient
 Matrix* ulqr_GetQu(LQRData* lqrdata);  ///< @brief Get (m,) Action-value conrol gradient
-Matrix* ulqr_GetState(LQRData* lqrdata);    ///< @brief Get (n,) state vector
-Matrix* ulqr_GetControl(LQRData* lqrdata);  ///< @brief Get (m,) control vector
 Matrix* ulqr_GetDual(LQRData* lqrdata);     ///< @brief Get (n,n) dual vector
 
 int LQRDataSize(int nstates, int ninputs);
