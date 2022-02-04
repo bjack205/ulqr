@@ -54,17 +54,17 @@
 typedef struct {
   int nstates;
   int ninputs;
-  double* Q;
-  double* R;
-  double* H;
-  double* q;
-  double* r;
+  Matrix Q;
+  Matrix R;
+  Matrix H;
+  Matrix q;
+  Matrix r;
   double* c;
-  double* A;
-  double* B;
-  double* d;
+  Matrix A;
+  Matrix B;
+  Matrix d;
   int datasize;  ///< number of doubles needed to store the data
-  bool isowner;
+  bool _isowner;
 } LQRData;
 
 /**
@@ -130,6 +130,7 @@ Matrix ulqr_GetR(LQRData* lqrdata);  ///< @brief Get control cost Hessian
 Matrix ulqr_GetH(LQRData* lqrdata);  ///< @brief Get cost Hessian cross-term (m,n)
 Matrix ulqr_Getq(LQRData* lqrdata);  ///< @brief Get affine state cost
 Matrix ulqr_Getr(LQRData* lqrdata);  ///< @brief Get affine control cost
+double ulqr_Getc(LQRData* lqrdata);  ///< @brief Get cost constant 
 
 /**
  * @brief Prints the data contained in LQRData
@@ -139,5 +140,7 @@ Matrix ulqr_Getr(LQRData* lqrdata);  ///< @brief Get affine control cost
  * @param lqrdata
  */
 void ulqr_PrintLQRData(LQRData* lqrdata);
+
+int LQRDataSize(int nstates, int ninputs);
 
 /**@} */

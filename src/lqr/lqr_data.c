@@ -11,28 +11,24 @@ int ulqr_InitializeLQRData(LQRData* lqrdata, double* Q, double* R, double* H, do
   }
   int nstates = lqrdata->nstates;
   int ninputs = lqrdata->ninputs;
-  memcpy(lqrdata->Q, Q, nstates * nstates * sizeof(double));
-  memcpy(lqrdata->R, R, ninputs * ninputs * sizeof(double));
-  memcpy(lqrdata->H, H, ninputs * nstates * sizeof(double));
-  memcpy(lqrdata->q, q, nstates * sizeof(double));
-  memcpy(lqrdata->r, r, ninputs * sizeof(double));
+  memcpy(lqrdata->Q.data, Q, nstates * nstates * sizeof(double));
+  memcpy(lqrdata->R.data, R, ninputs * ninputs * sizeof(double));
+  memcpy(lqrdata->H.data, H, ninputs * nstates * sizeof(double));
+  memcpy(lqrdata->q.data, q, nstates * sizeof(double));
+  memcpy(lqrdata->r.data, r, ninputs * sizeof(double));
   *lqrdata->c = c;
-  memcpy(lqrdata->A, A, nstates * nstates * sizeof(double));
-  memcpy(lqrdata->B, B, nstates * ninputs * sizeof(double));
-  memcpy(lqrdata->d, d, nstates * sizeof(double));
+  memcpy(lqrdata->A.data, A, nstates * nstates * sizeof(double));
+  memcpy(lqrdata->B.data, B, nstates * ninputs * sizeof(double));
+  memcpy(lqrdata->d.data, d, nstates * sizeof(double));
   return 0;
 }
 
 LQRData* ulqr_NewLQRData(int nstates, int ninputs, double* data) {
   if (nstates < 1 || ninputs < 1) {
-    printf("ERROR: nstates and ninputs must be positive integers.");
+    printf("ERROR: nstates and ninputs must be positive integers.\n");
     return NULL;
   }
-
-  int cost_size = (nstates + 1) * nstates + (ninputs + 1) * ninputs + nstates * ninputs +
-                  1;                                                    // Q,R,q,r,c
-  int dynamics_size = nstates * nstates + nstates * ninputs + nstates;  // A,B,d
-  int total_size = cost_size + dynamics_size;
+  int total_size = LQRDataSize(nstates, ninputs);
 
   bool isowner = data == NULL;
   if (isowner) {
@@ -47,28 +43,48 @@ LQRData* ulqr_NewLQRData(int nstates, int ninputs, double* data) {
   double* A = c + 1;
   double* B = A + nstates * nstates;
   double* d = B + nstates * ninputs;
+
   LQRData* lqrdata = (LQRData*)malloc(sizeof(LQRData));
   lqrdata->nstates = nstates;
   lqrdata->ninputs = ninputs;
-  lqrdata->Q = Q;
-  lqrdata->R = R;
-  lqrdata->H = H;
-  lqrdata->q = q;
-  lqrdata->r = r;
+  lqrdata->Q.data = Q;
+  lqrdata->R.data = R;
+  lqrdata->H.data = H;
+  lqrdata->q.data = q;
+  lqrdata->r.data = r;
   lqrdata->c = c;
-  lqrdata->A = A;
-  lqrdata->B = B;
-  lqrdata->d = d;
+  lqrdata->A.data = A;
+  lqrdata->B.data = B;
+  lqrdata->d.data = d;
+
+  lqrdata->Q.rows = nstates;
+  lqrdata->Q.cols = nstates;
+  lqrdata->H.rows = ninputs;
+  lqrdata->H.cols = nstates;
+  lqrdata->R.rows = ninputs;
+  lqrdata->R.cols = ninputs;
+  lqrdata->q.rows = nstates;
+  lqrdata->q.cols = 1;
+  lqrdata->r.rows = ninputs;
+  lqrdata->r.cols = 1;
+
+  lqrdata->A.rows = nstates;
+  lqrdata->A.cols = nstates;
+  lqrdata->B.rows = nstates;
+  lqrdata->B.cols = ninputs;
+  lqrdata->d.rows = nstates;
+  lqrdata->d.cols = 1;
+
   lqrdata->datasize = total_size;
-  lqrdata->isowner = isowner;
+  lqrdata->_isowner = isowner;
   return lqrdata;
 }
 
 int ulqr_FreeLQRData(LQRData** lqrdata_ptr) {
   LQRData* lqrdata = *lqrdata_ptr; 
   if (!lqrdata) { return -1; }
-  if (lqrdata->isowner && lqrdata->Q) {
-    free(lqrdata->Q);  // This points to the beginning of the allocated memory block
+  if (lqrdata->_isowner && lqrdata->Q.data) {
+    free(lqrdata->Q.data);  // This points to the beginning of the allocated memory block
   }
   free(lqrdata);
   *lqrdata_ptr = NULL;
@@ -82,49 +98,19 @@ int ulqr_CopyLQRData(LQRData* dest, LQRData* src) {
     return -1;
   }
   int total_size = src->datasize; 
-  memcpy(dest->Q, src->Q, total_size * sizeof(double));
+  memcpy(dest->Q.data, src->Q.data, total_size * sizeof(double));
   return 0;
 }
 
-Matrix ulqr_GetA(LQRData* lqrdata) {
-  Matrix mat = {lqrdata->nstates, lqrdata->nstates, lqrdata->A};
-  return mat;
-}
-
-Matrix ulqr_GetB(LQRData* lqrdata) {
-  Matrix mat = {lqrdata->nstates, lqrdata->ninputs, lqrdata->B};
-  return mat;
-}
-
-Matrix ulqr_Getd(LQRData* lqrdata) {
-  Matrix mat = {lqrdata->nstates, 1, lqrdata->d};
-  return mat;
-}
-
-Matrix ulqr_GetQ(LQRData* lqrdata) {
-  Matrix mat = {lqrdata->nstates, lqrdata->nstates, lqrdata->Q};
-  return mat;
-}
-
-Matrix ulqr_Getq(LQRData* lqrdata) {
-  Matrix mat = {lqrdata->nstates, 1, lqrdata->q};
-  return mat;
-}
-
-Matrix ulqr_GetR(LQRData* lqrdata) {
-  Matrix mat = {lqrdata->ninputs, lqrdata->ninputs, lqrdata->R};
-  return mat;
-}
-
-Matrix ulqr_Getr(LQRData* lqrdata) {
-  Matrix mat = {lqrdata->ninputs, 1, lqrdata->r};
-  return mat;
-}
-
-Matrix ulqr_GetH(LQRData* lqrdata) {
-  Matrix mat = {lqrdata->ninputs, lqrdata->nstates, lqrdata->H};
-  return mat;
-}
+Matrix ulqr_GetA(LQRData* lqrdata) { return lqrdata->A; }
+Matrix ulqr_GetB(LQRData* lqrdata) { return lqrdata->B; }
+Matrix ulqr_Getd(LQRData* lqrdata) { return lqrdata->d; }
+Matrix ulqr_GetQ(LQRData* lqrdata) { return lqrdata->Q; }
+Matrix ulqr_GetR(LQRData* lqrdata) { return lqrdata->R; }
+Matrix ulqr_GetH(LQRData* lqrdata) { return lqrdata->H; }
+Matrix ulqr_Getq(LQRData* lqrdata) { return lqrdata->q; }
+Matrix ulqr_Getr(LQRData* lqrdata) { return lqrdata->r; }
+double ulqr_Getc(LQRData* lqrdata) { return *lqrdata->c; }
 
 void PrintAsRow(Matrix* mat) {
   printf("[");
@@ -137,7 +123,7 @@ void PrintAsRow(Matrix* mat) {
 void ulqr_PrintLQRData(LQRData* lqrdata) {
   // clang-format off
   printf("LQR Data with n=%d, m=%d:\n", lqrdata->nstates, lqrdata->ninputs);
-  Matrix mat =  ulqr_GetQ(lqrdata);
+  Matrix mat = ulqr_GetQ(lqrdata);
   printf("Q = "); PrintAsRow(&mat);
   mat =  ulqr_GetR(lqrdata);
   printf("R = "); PrintAsRow(&mat);
@@ -155,4 +141,12 @@ void ulqr_PrintLQRData(LQRData* lqrdata) {
   mat =  ulqr_Getd(lqrdata);
   printf("d = "); PrintAsRow(&mat);
   // clang-format on
+}
+
+int LQRDataSize(int nstates, int ninputs) {
+  int cost_size = (nstates + 1) * nstates + (ninputs + 1) * ninputs + nstates * ninputs +
+                  1;                                                    // Q,R,q,r,c
+  int dynamics_size = nstates * nstates + nstates * ninputs + nstates;  // A,B,d
+  int total_size = cost_size + dynamics_size;
+  return total_size;
 }
