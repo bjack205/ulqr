@@ -12,6 +12,7 @@
  */
 #pragma once
 
+#include "lqr_data.h"
 #include "slap/matrix.h"
 
 /**

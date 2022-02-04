@@ -11,7 +11,7 @@ function (add_ulqr_test name)
     PRIVATE 
     simpletest 
     slap 
-    lqrdata
+    riccati
     m  # math library
   )
   add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})

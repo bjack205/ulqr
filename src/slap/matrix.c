@@ -191,3 +191,16 @@ int slap_PrintRowVector(const Matrix* mat) {
   printf("]\n");
   return 0;
 }
+
+int slap_SetMatrixSize(Matrix* mat, int rows, int cols) {
+  if (!mat) {
+    return -1;
+  }
+  if (rows < 1 || cols < 1) {
+    printf("ERROR: rows and columns must be positive integers.\n");
+    return -1;
+  }
+  mat->rows = rows;
+  mat->cols = cols;
+  return 0;
+}

@@ -245,4 +245,16 @@ int slap_PrintMatrix(const Matrix* mat);
  */
 int slap_PrintRowVector(const Matrix* mat);
 
+/**
+ * @brief Set the dimensions of the matrix
+ * 
+ * Note that this does not change the underlying data, only it's interpretation.
+ * 
+ * @param mat  Matrix
+ * @param rows New number of rows
+ * @param cols New number of columns
+ * @return 0 if successful
+ */
+int slap_SetMatrixSize(Matrix* mat, int rows, int cols);
+
 /**@}*/
