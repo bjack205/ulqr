@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['matrix_2eh_20',['matrix.h',['../matrix_8h.html',1,'']]]
+  ['lqr_5fdata_2eh_85',['lqr_data.h',['../lqr__data_8h.html',1,'']]]
 ];

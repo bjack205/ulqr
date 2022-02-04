@@ -7,6 +7,7 @@ var group__LinearAlgebra =
     ] ],
     [ "slap_FreeMatrix", "group__LinearAlgebra.html#gabed672b8ce3d1c0d35b0cc5d2b39d004", null ],
     [ "slap_MatrixCopy", "group__LinearAlgebra.html#gaf93790c31deb31d9b8b8bfbbdfc6b00b", null ],
+    [ "slap_MatrixCopyFromArray", "group__LinearAlgebra.html#gaa072f4bf172fe240f0b39a1895b42923", null ],
     [ "slap_MatrixCopyTranspose", "group__LinearAlgebra.html#gacd11879abd48176e871793f8aa2e3f7c", null ],
     [ "slap_MatrixFlatten", "group__LinearAlgebra.html#ga4e73ab8ee89d1ab52a3238e4bf2f6462", null ],
     [ "slap_MatrixFlattenToRow", "group__LinearAlgebra.html#ga4a7722d9f8551f9c42e8adaf3161ef45", null ],
@@ -20,5 +21,6 @@ var group__LinearAlgebra =
     [ "slap_MatrixSetElement", "group__LinearAlgebra.html#ga23de35fc76d72b54719e163775260b73", null ],
     [ "slap_NewMatrix", "group__LinearAlgebra.html#ga9019c40a4c65f48d3b3da9bcf24bf65c", null ],
     [ "slap_PrintMatrix", "group__LinearAlgebra.html#ga3f18b31ba6b5a47d23f516a612456524", null ],
-    [ "slap_PrintRowVector", "group__LinearAlgebra.html#gab7b475a3a3107e4264092153ce14d1ab", null ]
+    [ "slap_PrintRowVector", "group__LinearAlgebra.html#gab7b475a3a3107e4264092153ce14d1ab", null ],
+    [ "slap_SetMatrixSize", "group__LinearAlgebra.html#ga58eac61396f5c8dc823a369827fb0736", null ]
 ];

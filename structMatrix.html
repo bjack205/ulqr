@@ -117,7 +117,7 @@ double *&#160;</td><td class="memItemRight" valign="bottom"><b>data</b></td></tr
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a matrix of double-precision data. </p>
 <p>Simple wrapper around an arbitrary pointer to the underlying data. The data is assumed to be stored in a contiguous block of memory. The data is interpreted column-wise, such that <code>data[1]</code> is element <code>[1,0]</code> of the matrix.</p>
-<h2><a class="anchor" id="autotoc_md0"></a>
+<h2><a class="anchor" id="autotoc_md7"></a>
 Initialization</h2>
 <p>A <a class="el" href="structMatrix.html" title="Represents a matrix of double-precision data.">Matrix</a> can be initialized a few ways. The easiest is via <code>NewMatrix</code>:</p>
 <div class="fragment"><div class="line"><a class="code" href="structMatrix.html">Matrix</a> mat = <a class="code" href="group__LinearAlgebra.html#ga9019c40a4c65f48d3b3da9bcf24bf65c">slap_NewMatrix</a>(rows, cols);</div>
@@ -125,10 +125,10 @@ Initialization</h2>
 <p>If the data for the matrix is already stored in an array, the default brace initializer can be used:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">double</span> data[6] = {1,2,3,4,5,6};</div>
 <div class="line"><a class="code" href="structMatrix.html">Matrix</a> mat = {2, 3, data};</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md1"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md8"></a>
 Methods</h2>
 <p>The following methods are defined for the <a class="el" href="structMatrix.html" title="Represents a matrix of double-precision data.">Matrix</a> type:</p>
-<h3><a class="anchor" id="autotoc_md2"></a>
+<h3><a class="anchor" id="autotoc_md9"></a>
 Initialization and deconstruction</h3>
 <ul>
 <li><a class="el" href="group__LinearAlgebra.html#ga9019c40a4c65f48d3b3da9bcf24bf65c" title="Allocate a new matrix on the heap.">slap_NewMatrix()</a></li>
@@ -136,7 +136,7 @@ Initialization and deconstruction</h3>
 <li>MatrixSetConst()</li>
 <li>MatrixScaleByConst()</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md3"></a>
+<h3><a class="anchor" id="autotoc_md10"></a>
 Indexing operations</h3>
 <ul>
 <li>MatrixNumElements()</li>
@@ -145,19 +145,19 @@ Indexing operations</h3>
 <li>MatrixGetElementTranspose()</li>
 <li>MatrixSetElement()</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md4"></a>
+<h3><a class="anchor" id="autotoc_md11"></a>
 Copying</h3>
 <ul>
 <li>MatrixCopy()</li>
 <li>MatrixCopyTranspose()</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md5"></a>
+<h3><a class="anchor" id="autotoc_md12"></a>
 Reshaping</h3>
 <ul>
 <li>MatrixFlatten()</li>
 <li>MatrixFlattenToRow()</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md6"></a>
+<h3><a class="anchor" id="autotoc_md13"></a>
 Utilities</h3>
 <ul>
 <li>PrintMatrix()</li>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['matrix_19',['Matrix',['../structMatrix.html',1,'']]]
+  ['knotpoint_81',['KnotPoint',['../structKnotPoint.html',1,'']]]
 ];
