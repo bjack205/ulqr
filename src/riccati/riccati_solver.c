@@ -208,4 +208,11 @@ Matrix* ulqr_GetQuu(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k
 Matrix* ulqr_GetQux(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->Qux; }
 Matrix* ulqr_GetQx(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->Qx; }
 Matrix* ulqr_GetQu(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->Qu; }
+
+Matrix* ulqr_GetState(RiccatiSolver* solver, int k) {
+  return ulqr_GetKnotpointState(solver->Z + k);
+}
+Matrix* ulqr_GetInput(RiccatiSolver* solver, int k) {
+  return ulqr_GetKnotpointInput(solver->Z + k);
+}
 Matrix* ulqr_GetDual(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->y; }

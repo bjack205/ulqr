@@ -36,7 +36,7 @@ enum ulqr_ReturnCode ulqr_InitializeKnotPoint(KnotPoint* z, int nstates, int nin
   return kOk;
 }
 
-Matrix* ulqr_GetState(KnotPoint* z) { return &z->x; }
-Matrix* ulqr_GetInput(KnotPoint* z) { return &z->u; }
+Matrix* ulqr_GetKnotpointState(KnotPoint* z) { return &z->x; }
+Matrix* ulqr_GetKnotpointInput(KnotPoint* z) { return &z->u; }
 double ulqr_GetTime(KnotPoint* z) { return z->t; }
 double ulqr_GetTimestep(KnotPoint* z) { return z->h; }

@@ -162,6 +162,8 @@ Matrix* ulqr_GetQx(RiccatiSolver* solver,
                    int k);  ///< @brief Get (n,) Action-value state gradient
 Matrix* ulqr_GetQu(RiccatiSolver* solver,
                    int k);  ///< @brief Get (m,) Action-value conrol gradient
-Matrix* ulqr_GetDual(RiccatiSolver* solver, int k);  ///< @brief Get (n,n) dual vector
+Matrix* ulqr_GetState(RiccatiSolver* solver, int k);  ///< @brief Get (n,) state vector
+Matrix* ulqr_GetInput(RiccatiSolver* solver, int k);  ///< @brief Get (m,) input vector
+Matrix* ulqr_GetDual(RiccatiSolver* solver, int k);   ///< @brief Get (n,) dual vector
 
 /**@} */

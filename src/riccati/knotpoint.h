@@ -31,7 +31,7 @@ typedef struct {
 enum ulqr_ReturnCode ulqr_InitializeKnotPoint(KnotPoint* z, int nstates, int ninputs,
                                               double* data, double t, double h);
 
-Matrix* ulqr_GetState(KnotPoint* z);
-Matrix* ulqr_GetInput(KnotPoint* z);
+Matrix* ulqr_GetKnotpointState(KnotPoint* z);
+Matrix* ulqr_GetKnotpointInput(KnotPoint* z);
 double ulqr_GetTime(KnotPoint* z);
 double ulqr_GetTimestep(KnotPoint* z);

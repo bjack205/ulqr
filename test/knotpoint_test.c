@@ -19,8 +19,8 @@ void TestInitializeKnotPoint() {
   const double tol = 1e-8;
   TESTAPPROX(ulqr_GetTime(&z), t, tol);
   TESTAPPROX(ulqr_GetTimestep(&z), h, tol);
-  Matrix* x = ulqr_GetState(&z);
-  Matrix* u = ulqr_GetInput(&z);
+  Matrix* x = ulqr_GetKnotpointState(&z);
+  Matrix* u = ulqr_GetKnotpointInput(&z);
   TEST(x->rows == nstates);
   TEST(x->cols == 1);
   TEST(u->rows == ninputs);
