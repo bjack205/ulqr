@@ -1,6 +1,7 @@
 #include "linalg.h"
 
 #include "math.h"
+#include "slap/matrix.h"
 #include "stdio.h"
 
 int slap_MatrixAddition(Matrix* A, Matrix* B, double alpha) {
@@ -137,4 +138,28 @@ int slap_CholeskySolve(Matrix* L, Matrix* b) {
   slap_LowerTriBackSub(L, b, 0);
   slap_LowerTriBackSub(L, b, 1);
   return 0;
+}
+
+double slap_TwoNorm(const Matrix* M) {
+  if (!M) {
+    return -1;
+  }
+  double norm = 0.0;
+  for (int i = 0; i < slap_MatrixNumElements(M); ++i) {
+    double x = M->data[i];
+    norm += x * x; 
+  }
+  return sqrt(norm);
+}
+
+double slap_OneNorm(const Matrix* M) {
+  if (!M) {
+    return -1;
+  }
+  double norm = 0.0;
+  for (int i = 0; i < slap_MatrixNumElements(M); ++i) {
+    double x = M->data[i];
+    norm += fabs(x);
+  }
+  return sqrt(norm);
 }

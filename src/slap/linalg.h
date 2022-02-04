@@ -158,4 +158,20 @@ int slap_CholeskySolve(Matrix* A, Matrix* b);
  */
 int slap_LowerTriBackSub(Matrix* L, Matrix* b, bool istransposed);
 
+/**
+ * @brief Evaluate the 2-norm of a matrix or vector
+ * 
+ * @param M Matrix with valid data
+ * @return 2-norm, or -1 if error
+ */
+double slap_TwoNorm(const Matrix* M);
+
+/**
+ * @brief Evaluat the 1-norm of a matrix or vector
+ * 
+ * @param M Matrix with valid data
+ * @return 1-norm of the matrix, or -1 if error.
+ */
+double slap_OneNorm(const Matrix* M);
+
 /**@} */
