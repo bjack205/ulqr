@@ -3,38 +3,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "riccati/constants.h"
 #include "slap/matrix.h"
 
-int ulqr_InitializeLQRData(LQRData* lqrdata, double* Q, double* R, double* H, double* q,
-                           double* r, double c, double* A, double* B, double* d) {
-  if (!lqrdata || !Q || !R || !H || !q || !r || !A || !B || !d) {
-    return -1;
-  }
-  int nstates = lqrdata->nstates;
-  int ninputs = lqrdata->ninputs;
-  memcpy(lqrdata->Q.data, Q, nstates * nstates * sizeof(double));
-  memcpy(lqrdata->R.data, R, ninputs * ninputs * sizeof(double));
-  memcpy(lqrdata->H.data, H, ninputs * nstates * sizeof(double));
-  memcpy(lqrdata->q.data, q, nstates * sizeof(double));
-  memcpy(lqrdata->r.data, r, ninputs * sizeof(double));
-  *lqrdata->c = c;
-  memcpy(lqrdata->A.data, A, nstates * nstates * sizeof(double));
-  memcpy(lqrdata->B.data, B, nstates * ninputs * sizeof(double));
-  memcpy(lqrdata->d.data, d, nstates * sizeof(double));
-  return 0;
-}
-
-LQRData* ulqr_NewLQRData(int nstates, int ninputs, double* data) {
+enum ulqr_ReturnCode ulqr_InitializeLQRData(LQRData* lqrdata, int nstates, int ninputs,
+                                            double* data) {
   if (nstates < 1 || ninputs < 1) {
     printf("ERROR: nstates and ninputs must be positive integers.\n");
-    return NULL;
+    return kBadInput;
   }
-  int total_size = LQRDataSize(nstates, ninputs);
+  if (!lqrdata) {
+    printf("ERROR: Pointer to lqrdata cannot be NULL.\n");
+    return kBadInput;
+  }
+  if (!data) {
+    printf("ERROR: Pointer to data cannot be NULL when initializing LQRData.\n");
+    return kBadInput;
+  }
 
-  bool isowner = data == NULL;
-  if (isowner) {
-    data = (double*)malloc(total_size * sizeof(double));
-  }
+  // Assign the memory into chunks
   double* Q = data;
   double* R = Q + nstates * nstates;
   double* H = R + ninputs * ninputs;
@@ -53,11 +41,9 @@ LQRData* ulqr_NewLQRData(int nstates, int ninputs, double* data) {
   double* Qux = Quu + ninputs * ninputs;
   double* Qx = Qux + ninputs * nstates;
   double* Qu = Qx + nstates;
-  double* x = Qu + ninputs;
-  double* u = x + nstates;
-  double* y = u + ninputs;
+  double* y = Qu + ninputs;
 
-  LQRData* lqrdata = (LQRData*)malloc(sizeof(LQRData));
+  // Initialize the struct
   lqrdata->nstates = nstates;
   lqrdata->ninputs = ninputs;
   lqrdata->Q.data = Q;
@@ -78,10 +64,10 @@ LQRData* ulqr_NewLQRData(int nstates, int ninputs, double* data) {
   lqrdata->Qux.data = Qux;
   lqrdata->q.data = q;
   lqrdata->r.data = r;
-  lqrdata->x.data = x;
-  lqrdata->u.data = u;
   lqrdata->y.data = y;
+  lqrdata->datasize = LQRDataSize(nstates, ninputs);
 
+  // Set matrix sizes
   slap_SetMatrixSize(&lqrdata->Q, nstates, nstates);
   slap_SetMatrixSize(&lqrdata->R, ninputs, ninputs);
   slap_SetMatrixSize(&lqrdata->H, ninputs, nstates);
@@ -99,25 +85,8 @@ LQRData* ulqr_NewLQRData(int nstates, int ninputs, double* data) {
   slap_SetMatrixSize(&lqrdata->Qux, ninputs, nstates);
   slap_SetMatrixSize(&lqrdata->Qx, nstates, 1);
   slap_SetMatrixSize(&lqrdata->Qu, ninputs, 1);
-  slap_SetMatrixSize(&lqrdata->x, nstates, 1);
-  slap_SetMatrixSize(&lqrdata->u, ninputs, 1);
   slap_SetMatrixSize(&lqrdata->y, nstates, 1);
 
-  lqrdata->datasize = total_size;
-  lqrdata->_isowner = isowner;
-  return lqrdata;
-}
-
-int ulqr_FreeLQRData(LQRData** lqrdata_ptr) {
-  LQRData* lqrdata = *lqrdata_ptr;
-  if (!lqrdata) {
-    return -1;
-  }
-  if (lqrdata->_isowner && lqrdata->Q.data) {
-    free(lqrdata->Q.data);  // This points to the beginning of the allocated memory block
-  }
-  free(lqrdata);
-  *lqrdata_ptr = NULL;
   return 0;
 }
 
@@ -134,13 +103,24 @@ int ulqr_CopyLQRData(LQRData* dest, LQRData* src) {
 
 Matrix* ulqr_GetA(LQRData* lqrdata) { return &lqrdata->A; }
 Matrix* ulqr_GetB(LQRData* lqrdata) { return &lqrdata->B; }
-Matrix* ulqr_Getd(LQRData* lqrdata) { return &lqrdata->d; }
+Matrix* ulqr_Getf(LQRData* lqrdata) { return &lqrdata->f; }
 Matrix* ulqr_GetQ(LQRData* lqrdata) { return &lqrdata->Q; }
 Matrix* ulqr_GetR(LQRData* lqrdata) { return &lqrdata->R; }
 Matrix* ulqr_GetH(LQRData* lqrdata) { return &lqrdata->H; }
 Matrix* ulqr_Getq(LQRData* lqrdata) { return &lqrdata->q; }
 Matrix* ulqr_Getr(LQRData* lqrdata) { return &lqrdata->r; }
 double ulqr_Getc(LQRData* lqrdata) { return *lqrdata->c; }
+
+Matrix* ulqr_GetFeedbackGain(LQRData* lqrdata) { return &lqrdata->K; }
+Matrix* ulqr_GetFeedforwardGain(LQRData* lqrdata) { return &lqrdata->d; }
+Matrix* ulqr_GetCostToGoHessian(LQRData* lqrdata) { return &lqrdata->P; }
+Matrix* ulqr_GetCostToGoGradient(LQRData* lqrdata) { return &lqrdata->p; }
+Matrix* ulqr_GetQxx(LQRData* lqrdata) { return &lqrdata->Qxx; }
+Matrix* ulqr_GetQuu(LQRData* lqrdata) { return &lqrdata->Quu; }
+Matrix* ulqr_GetQux(LQRData* lqrdata) { return &lqrdata->Qux; }
+Matrix* ulqr_GetQx(LQRData* lqrdata) { return &lqrdata->Qx; }
+Matrix* ulqr_GetQu(LQRData* lqrdata) { return &lqrdata->Qu; }
+Matrix* ulqr_GetDual(LQRData* lqrdata) { return &lqrdata->y; }
 
 int LQRDataSize(int nstates, int ninputs) {
   int cost_size = (nstates + 1) * nstates + (ninputs + 1) * ninputs + nstates * ninputs +
@@ -149,7 +129,7 @@ int LQRDataSize(int nstates, int ninputs) {
   int gains_size = ninputs * (nstates + 1);
   int ctg_size = nstates * (nstates + 1);
   int action_value_size = cost_size - 1;
-  int vec_size = 2 * nstates + ninputs;
+  int vec_size = nstates;
   int total_size =
       cost_size + dynamics_size + gains_size + ctg_size + action_value_size + vec_size;
   return total_size;
