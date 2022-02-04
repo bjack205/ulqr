@@ -89,9 +89,9 @@ LQRData* ulqr_NewLQRData(int nstates, int ninputs, double* data) {
   slap_SetMatrixSize(&lqrdata->r, ninputs, 1);
   slap_SetMatrixSize(&lqrdata->A, nstates, nstates);
   slap_SetMatrixSize(&lqrdata->B, nstates, ninputs);
-  slap_SetMatrixSize(&lqrdata->d, nstates, 1);
+  slap_SetMatrixSize(&lqrdata->f, nstates, 1);
   slap_SetMatrixSize(&lqrdata->K, ninputs, nstates);
-  slap_SetMatrixSize(&lqrdata->K, ninputs, 1);
+  slap_SetMatrixSize(&lqrdata->d, ninputs, 1);
   slap_SetMatrixSize(&lqrdata->P, nstates, nstates);
   slap_SetMatrixSize(&lqrdata->p, nstates, 1);
   slap_SetMatrixSize(&lqrdata->Qxx, nstates, nstates);
@@ -132,46 +132,15 @@ int ulqr_CopyLQRData(LQRData* dest, LQRData* src) {
   return 0;
 }
 
-Matrix ulqr_GetA(LQRData* lqrdata) { return lqrdata->A; }
-Matrix ulqr_GetB(LQRData* lqrdata) { return lqrdata->B; }
-Matrix ulqr_Getd(LQRData* lqrdata) { return lqrdata->d; }
-Matrix ulqr_GetQ(LQRData* lqrdata) { return lqrdata->Q; }
-Matrix ulqr_GetR(LQRData* lqrdata) { return lqrdata->R; }
-Matrix ulqr_GetH(LQRData* lqrdata) { return lqrdata->H; }
-Matrix ulqr_Getq(LQRData* lqrdata) { return lqrdata->q; }
-Matrix ulqr_Getr(LQRData* lqrdata) { return lqrdata->r; }
+Matrix* ulqr_GetA(LQRData* lqrdata) { return &lqrdata->A; }
+Matrix* ulqr_GetB(LQRData* lqrdata) { return &lqrdata->B; }
+Matrix* ulqr_Getd(LQRData* lqrdata) { return &lqrdata->d; }
+Matrix* ulqr_GetQ(LQRData* lqrdata) { return &lqrdata->Q; }
+Matrix* ulqr_GetR(LQRData* lqrdata) { return &lqrdata->R; }
+Matrix* ulqr_GetH(LQRData* lqrdata) { return &lqrdata->H; }
+Matrix* ulqr_Getq(LQRData* lqrdata) { return &lqrdata->q; }
+Matrix* ulqr_Getr(LQRData* lqrdata) { return &lqrdata->r; }
 double ulqr_Getc(LQRData* lqrdata) { return *lqrdata->c; }
-
-void PrintAsRow(Matrix* mat) {
-  printf("[");
-  for (int i = 0; i < slap_MatrixNumElements(mat); ++i) {
-    printf("%6.2f ", mat->data[i]);
-  }
-  printf("]\n");
-}
-
-void ulqr_PrintLQRData(LQRData* lqrdata) {
-  // clang-format off
-  printf("LQR Data with n=%d, m=%d:\n", lqrdata->nstates, lqrdata->ninputs);
-  Matrix mat = ulqr_GetQ(lqrdata);
-  printf("Q = "); PrintAsRow(&mat);
-  mat =  ulqr_GetR(lqrdata);
-  printf("R = "); PrintAsRow(&mat);
-  mat =  ulqr_Getq(lqrdata);
-  printf("q = "); PrintAsRow(&mat);
-  mat =  ulqr_Getr(lqrdata);
-  printf("r = "); PrintAsRow(&mat);
-  printf("c = %f\n", *lqrdata->c);
-  printf("A:\n");
-  mat =  ulqr_GetA(lqrdata);
-  slap_PrintMatrix(&mat);
-  printf("B:\n");
-  mat =  ulqr_GetB(lqrdata);
-  slap_PrintMatrix(&mat);
-  mat =  ulqr_Getd(lqrdata);
-  printf("d = "); PrintAsRow(&mat);
-  // clang-format on
-}
 
 int LQRDataSize(int nstates, int ninputs) {
   int cost_size = (nstates + 1) * nstates + (ninputs + 1) * ninputs + nstates * ninputs +

@@ -135,24 +135,28 @@ int ulqr_FreeLQRData(LQRData** lqrdata);
  */
 int ulqr_CopyLQRData(LQRData* dest, LQRData* src);
 
-Matrix ulqr_GetA(LQRData* lqrdata);  ///< @brief Get (n,n) state transition matrix
-Matrix ulqr_GetB(LQRData* lqrdata);  ///< @brief Get (n,m) control input matrix
-Matrix ulqr_Getd(LQRData* lqrdata);  ///< @brief Get (n,) affine dynamice term
-Matrix ulqr_GetQ(LQRData* lqrdata);  ///< @brief Get state cost Hessian
-Matrix ulqr_GetR(LQRData* lqrdata);  ///< @brief Get control cost Hessian
-Matrix ulqr_GetH(LQRData* lqrdata);  ///< @brief Get cost Hessian cross-term (m,n)
-Matrix ulqr_Getq(LQRData* lqrdata);  ///< @brief Get affine state cost
-Matrix ulqr_Getr(LQRData* lqrdata);  ///< @brief Get affine control cost
+Matrix* ulqr_GetA(LQRData* lqrdata);  ///< @brief Get (n,n) state transition matrix
+Matrix* ulqr_GetB(LQRData* lqrdata);  ///< @brief Get (n,m) control input matrix
+Matrix* ulqr_Getd(LQRData* lqrdata);  ///< @brief Get (n,) affine dynamice term
+Matrix* ulqr_GetQ(LQRData* lqrdata);  ///< @brief Get state cost Hessian
+Matrix* ulqr_GetR(LQRData* lqrdata);  ///< @brief Get control cost Hessian
+Matrix* ulqr_GetH(LQRData* lqrdata);  ///< @brief Get cost Hessian cross-term (m,n)
+Matrix* ulqr_Getq(LQRData* lqrdata);  ///< @brief Get affine state cost
+Matrix* ulqr_Getr(LQRData* lqrdata);  ///< @brief Get affine control cost
 double ulqr_Getc(LQRData* lqrdata);  ///< @brief Get cost constant 
 
-/**
- * @brief Prints the data contained in LQRData
- *
- * Cost data is printed in rows and dynamics data is printed as normal matrices.
- *
- * @param lqrdata
- */
-void ulqr_PrintLQRData(LQRData* lqrdata);
+Matrix* ulqr_GetFeedbackGain(LQRData* lqrdata);  ///< @brief Get (m,n) feedback gain 
+Matrix* ulqr_GetFeedforwardGain(LQRData* lqrdata);  ///< @brief Get (m,) feedforward gain 
+Matrix* ulqr_GetCostToGoHessian(LQRData* lqrdata);  ///< @brief Get (n,n) Hessian of the cost-to-go
+Matrix* ulqr_GetCostToGoGradient(LQRData* lqrdata);  ///< @brief Get (n,) Gradient of the cost-to-go 
+Matrix* ulqr_GetQxx(LQRData* lqrdata);  ///< @brief Get (n,n) Action-value state Hessian 
+Matrix* ulqr_GetQuu(LQRData* lqrdata);  ///< @brief Get (m,m) Action-value control Hessian  
+Matrix* ulqr_GetQux(LQRData* lqrdata);  ///< @brief Get (m,n) Action-value Hessian cross-term
+Matrix* ulqr_GetQx(LQRData* lqrdata);  ///< @brief Get (n,) Action-value state gradient
+Matrix* ulqr_GetQu(LQRData* lqrdata);  ///< @brief Get (m,) Action-value conrol gradient 
+Matrix* ulqr_GetState(LQRData* lqrdata);  ///< @brief Get (n,) state vector 
+Matrix* ulqr_GetControl(LQRData* lqrdata);  ///< @brief Get (m,) control vector 
+Matrix* ulqr_GetDual(LQRData* lqrdata);  ///< @brief Get (n,n) dual vector 
 
 int LQRDataSize(int nstates, int ninputs);
 
