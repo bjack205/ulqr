@@ -99,6 +99,17 @@ int slap_MatrixCopy(Matrix* dest, Matrix* src) {
   return 0;
 }
 
+int slap_MatrixCopyFromArray(Matrix* mat, const double* data) {
+  if (!mat) {
+    return -1;
+  }
+  int len = slap_MatrixNumElements(mat);
+  for (int i = 0; i < len; ++i) {
+    mat->data[i] = data[i];
+  }
+  return 0;
+}
+
 int slap_MatrixCopyTranspose(Matrix* dest, Matrix* src) {
   if (!dest || !src) {
     return -1;

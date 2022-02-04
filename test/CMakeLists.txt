@@ -6,6 +6,9 @@ function (add_ulqr_test name)
   set(TEST_NAME ${name}_test)
   add_executable(${TEST_NAME}
     ${TEST_NAME}.c
+
+    test_utils.h
+    test_utils.c
   )
   target_link_libraries(${TEST_NAME}
     PRIVATE 
@@ -32,3 +35,4 @@ add_ulqr_test(simple)
 add_ulqr_test(matrix)
 add_ulqr_test(linalg)
 add_ulqr_test(lqrdata)
+add_ulqr_test(knotpoint)

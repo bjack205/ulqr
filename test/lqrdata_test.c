@@ -7,6 +7,7 @@
 #include "riccati/lqr_data.h"
 #include "simpletest/simpletest.h"
 #include "slap/matrix.h"
+#include "test_utils.h"
 
 double A[4] = {1, 0, 1, 1};  // NOLINT
 double B[2] = {1, 2};        // NOLINT
@@ -30,47 +31,38 @@ void SetLQRData(LQRData* lqrdata) {
   *lqrdata->c = c;
 }
 
-double SumOfSquaredError(double* x, double* y, int len) {
-  double err = 0;
-  for (int i = 0; i < len; ++i) {
-    double diff = x[i] - y[i];
-    err += diff * diff;
-  }
-  return sqrt(err);
-}
-
 void TestInitializeLQRData() {
   const int nstates = 2;
   const int ninputs = 1;
   LQRData* lqrdata = (LQRData*)malloc(sizeof(LQRData));
-  double* data = (double*)malloc(LQRDataSize(nstates, ninputs)* sizeof(double));
+  double* data = (double*)malloc(LQRDataSize(nstates, ninputs) * sizeof(double));
   ulqr_InitializeLQRData(lqrdata, nstates, ninputs, data);
 
   // Check sizes
   TEST(lqrdata->nstates == nstates);
   TEST(lqrdata->ninputs == ninputs);
-  Matrix mat = lqrdata->A; 
+  Matrix mat = lqrdata->A;
   TEST(mat.rows == nstates);
   TEST(mat.cols == nstates);
-  mat = lqrdata->B; 
+  mat = lqrdata->B;
   TEST(mat.rows == nstates);
   TEST(mat.cols == ninputs);
-  mat = lqrdata->f; 
+  mat = lqrdata->f;
   TEST(mat.rows == nstates);
   TEST(mat.cols == 1);
-  mat = lqrdata->Q; 
+  mat = lqrdata->Q;
   TEST(mat.rows == nstates);
   TEST(mat.cols == nstates);
-  mat = lqrdata->R; 
+  mat = lqrdata->R;
   TEST(mat.rows == ninputs);
   TEST(mat.cols == ninputs);
-  mat = lqrdata->H; 
+  mat = lqrdata->H;
   TEST(mat.rows == ninputs);
   TEST(mat.cols == nstates);
-  mat = lqrdata->q; 
+  mat = lqrdata->q;
   TEST(mat.rows == nstates);
   TEST(mat.cols == 1);
-  mat = lqrdata->r; 
+  mat = lqrdata->r;
   TEST(mat.rows == ninputs);
   TEST(mat.cols == 1);
 
@@ -93,7 +85,6 @@ void TestInitializeLQRData() {
 
   TEST(lqrdata->y.rows == nstates);
   TEST(lqrdata->y.cols == 1);
-
 
   const double tol = 1e-8;
   SetLQRData(lqrdata);
@@ -133,9 +124,8 @@ void TestLQRDataCopy() {
   ulqr_InitializeLQRData(lqrdata + 0, nstates, ninputs, data);
   ulqr_InitializeLQRData(lqrdata + 1, nstates, ninputs, data + datasize);
 
-
-  LQRData* data0 = lqrdata + 0; 
-  LQRData* data1 = lqrdata + 1; 
+  LQRData* data0 = lqrdata + 0;
+  LQRData* data1 = lqrdata + 1;
   SetLQRData(data0);
   ulqr_CopyLQRData(data1, data0);
 

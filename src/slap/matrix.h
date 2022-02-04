@@ -183,6 +183,16 @@ int slap_MatrixCopyTranspose(Matrix* dest, Matrix* src);
  * @return 0 if successful
  */
 int slap_MatrixCopy(Matrix* dest, Matrix* src);
+
+/**
+ * @brief Copy the data from an array into the matrix, columnwise.
+ * 
+ * @param mat  Matrix with nonzero size
+ * @param data Data to be copied into the array. Must have length of at least mat.rows * mat.cols.
+ * @return 0 if successful
+ */
+int slap_MatrixCopyFromArray(Matrix* mat, const double* data);
+
 /**
  * @brief Scale a matrix by a constant factor
  *

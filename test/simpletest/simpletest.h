@@ -18,6 +18,12 @@
  * Then, after calling all your test code, return the output of TestResult() from
  * your main function. Optionally, you can use PrintTestStatus() before you return
  * to print the results.
+ * 
+ * For convenience, this package also provides the TESTAPPROX(a,b,tol) macro which calls
+ * ~~~
+ * TEST(fabs(a - b) < tol)
+ * ~~~
+ * which is useful for comparing floating point numbers.
  *
  * Any failed tests will show the expression that failed, along with the file and
  * line number of test.
@@ -29,6 +35,7 @@
  * void MyTestFunction() {
  *   TEST(2 == 1 + 1);
  *   TEST(4 == 2 * 2);
+ *   TESTAPPROX(1.2, 2.4 / 2, 1e-8);
  * }
  *
  * int main() {
@@ -40,6 +47,7 @@
  *
  */
 #pragma once
+#include <math.h>
 
 #define TEST(test)                          \
   do {                                      \
@@ -50,6 +58,8 @@
       TestPass();                           \
     }                                       \
   } while (0)
+
+#define TESTAPPROX(a,b,tol) TEST(fabs((a) - (b)) < tol)
 
 void TestPass();
 void TestFail();
