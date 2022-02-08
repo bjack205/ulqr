@@ -1,3 +1,5 @@
+#pragma once 
+
 #include "constants.h"
 #include "riccati/constants.h"
 #include "slap/matrix.h"
