@@ -8,7 +8,7 @@
 #include "lqr_data.h"
 #include "slap/matrix.h"
 
-bool CheckBadIndex(RiccatiSolver* solver, int k) {
+bool CheckBadIndex(const RiccatiSolver* solver, int k) {
   if (k < 0 || k > solver->nhorizon) {
     printf("ERROR: Invalid knot point range. Must be in interval [0,%d)\n",
            solver->nhorizon);
@@ -177,6 +177,40 @@ enum ulqr_ReturnCode ulqr_SetCost(RiccatiSolver* solver, const double* Q, const 
       slap_MatrixCopyFromArray(&lqrdata->r, r);
     }
     *lqrdata->c = c;
+  }
+  return kOk;
+}
+
+enum ulqr_ReturnCode ulqr_SetDynamics(RiccatiSolver* solver, const double* A,
+                                      const double* B, const double* f, int k_start,
+                                      int k_end) {
+  // Check inputs
+  if (!solver) {
+    return kBadInput;
+  }
+  if (!A || !B) {
+    printf("ERROR: Both A and B must be specified when setting the dynamics.\n");
+    return kBadInput;
+  }
+  if (CheckBadIndex(solver, k_start)) {
+    return kBadInput;
+  }
+  if (CheckBadIndex(solver, k_end)) {
+    return kBadInput;
+  }
+
+  // Copy into problem
+  for (int k = k_start; k < k_end; ++k) {
+    int out = 0;
+    LQRData* lqrdata = solver->lqrdata + k;
+    out += slap_MatrixCopyFromArray(&lqrdata->A, A);
+    out += slap_MatrixCopyFromArray(&lqrdata->B, B);
+    if (f) {
+      out += slap_MatrixCopyFromArray(&lqrdata->f, f);
+    }
+    if (out != 0) {
+      return kLinearAlgebraError;
+    }
   }
   return kOk;
 }

@@ -129,6 +129,10 @@ enum ulqr_ReturnCode ulqr_SetCost(RiccatiSolver* solver, const double* Q, const 
                                   const double* H, const double* q, const double* r,
                                   double c, int k_start, int k_end);
 
+enum ulqr_ReturnCode ulqr_SetDynamics(RiccatiSolver* solver, const double* A,
+                                      const double* B, const double* f, int k_start,
+                                      int k_end);
+
 /*************************
  *       Getters
  *************************/
