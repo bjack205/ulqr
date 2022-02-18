@@ -174,4 +174,23 @@ double slap_TwoNorm(const Matrix* M);
  */
 double slap_OneNorm(const Matrix* M);
 
+/**
+ * @brief Calculate the dot product of two vectors
+ * 
+ * @param x A vector of length n
+ * @param y A vector of length n
+ * @return Dot product of x,y. NAN if invalid.
+ */
+double slap_DotProduct(const Matrix* x, const Matrix* y);
+
+/**
+ * @brief Calculate the scaled inner product \f$ x^T A y \f$
+ * 
+ * @param x A vector of length n
+ * @param A A matrix of size (n,m)
+ * @param y A vector of length m
+ * @return The dot product, or NAN if invalid.
+ */
+double slap_QuadraticForm(const Matrix* x, const Matrix* A, const Matrix* y);
+
 /**@} */

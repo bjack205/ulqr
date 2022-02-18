@@ -163,3 +163,32 @@ double slap_OneNorm(const Matrix* M) {
   }
   return sqrt(norm);
 }
+
+double slap_DotProduct(const Matrix* x, const Matrix* y) { 
+  if ((x->rows != y->rows) || (x->rows != 1) || (y->rows != 1)) {
+    return NAN;
+  }
+  double out = 0.0;
+  for (int i = 0; i < x->rows; ++i) {
+      double xi = x->data[i];
+      double yi = y->data[i];
+      out += xi * yi;
+  }
+  return out;
+}
+
+double slap_QuadraticForm(const Matrix* x, const Matrix* A, const Matrix* y) { 
+  if ((x->rows != A->rows) || (y->rows != A->cols) || (x->rows != 1) || (y->rows != 1)) {
+    return NAN;
+  }
+  double out = 0.0;
+  for (int i = 0; i < x->rows; ++i) {
+    for (int j = 0; j < y->rows; ++j) {
+      double xi = x->data[i];
+      double yj = y->data[j];
+      double Aij = *slap_MatrixGetElement(A, i, j);
+      out += xi * Aij * yj;
+    }
+  }
+  return out;
+}
