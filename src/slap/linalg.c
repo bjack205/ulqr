@@ -165,7 +165,7 @@ double slap_OneNorm(const Matrix* M) {
 }
 
 double slap_DotProduct(const Matrix* x, const Matrix* y) { 
-  if ((x->rows != y->rows) || (x->rows != 1) || (y->rows != 1)) {
+  if ((x->rows != y->rows) || (x->cols != 1) || (y->cols != 1)) {
     return NAN;
   }
   double out = 0.0;
@@ -178,7 +178,7 @@ double slap_DotProduct(const Matrix* x, const Matrix* y) {
 }
 
 double slap_QuadraticForm(const Matrix* x, const Matrix* A, const Matrix* y) { 
-  if ((x->rows != A->rows) || (y->rows != A->cols) || (x->rows != 1) || (y->rows != 1)) {
+  if ((x->rows != A->rows) || (y->rows != A->cols) || (x->cols != 1) || (y->cols != 1)) {
     return NAN;
   }
   double out = 0.0;

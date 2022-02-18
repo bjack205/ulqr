@@ -170,4 +170,9 @@ Matrix* ulqr_GetState(RiccatiSolver* solver, int k);  ///< @brief Get (n,) state
 Matrix* ulqr_GetInput(RiccatiSolver* solver, int k);  ///< @brief Get (m,) input vector
 Matrix* ulqr_GetDual(RiccatiSolver* solver, int k);   ///< @brief Get (n,) dual vector
 
+/*************************
+ *       Methods
+ *************************/
+double ulqr_CalcCost(RiccatiSolver* solver);
+
 /**@} */

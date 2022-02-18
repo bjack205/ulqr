@@ -62,8 +62,8 @@ enum ulqr_ReturnCode ulqr_InitializeLQRData(LQRData* lqrdata, int nstates, int n
   lqrdata->Qxx.data = Qxx;
   lqrdata->Quu.data = Quu;
   lqrdata->Qux.data = Qux;
-  lqrdata->q.data = q;
-  lqrdata->r.data = r;
+  lqrdata->Qx.data = Qx;
+  lqrdata->Qu.data = Qu;
   lqrdata->y.data = y;
   lqrdata->datasize = LQRDataSize(nstates, ninputs);
 
@@ -111,5 +111,5 @@ int LQRDataSize(int nstates, int ninputs) {
   int vec_size = nstates;
   int total_size =
       cost_size + dynamics_size + gains_size + ctg_size + action_value_size + vec_size;
-  return total_size;
+  return total_size + 1;
 }

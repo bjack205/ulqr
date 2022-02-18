@@ -35,7 +35,7 @@ void TestInitializeLQRData() {
   const int nstates = 2;
   const int ninputs = 1;
   LQRData* lqrdata = (LQRData*)malloc(sizeof(LQRData));
-  double* data = (double*)malloc(LQRDataSize(nstates, ninputs) * sizeof(double));
+  double* data = (double*)calloc(LQRDataSize(nstates, ninputs), sizeof(double));
   ulqr_InitializeLQRData(lqrdata, nstates, ninputs, data);
 
   // Check sizes
@@ -85,6 +85,7 @@ void TestInitializeLQRData() {
 
   TEST(lqrdata->y.rows == nstates);
   TEST(lqrdata->y.cols == 1);
+  TEST((lqrdata->y.data + nstates) - (lqrdata->Q.data) + 1 == LQRDataSize(nstates, ninputs));
 
   const double tol = 1e-8;
   SetLQRData(lqrdata);
@@ -144,9 +145,35 @@ void TestLQRDataCopy() {
   free(data);
 }
 
+void InitLQRData(LQRData* lqrdata, double* data) {
+  lqrdata->c = data;
+}
+
+void TestLQRDataArray() {  
+  const int nhorizon = 3;
+  const int nstates = 3;
+  const int ninputs = 2;
+  int lqrdata_size = LQRDataSize(nstates, ninputs);
+  LQRData* lqrdata = (LQRData*)malloc(nhorizon * sizeof(LQRData));
+  double* data = (double*)calloc(lqrdata_size * nhorizon, sizeof(double));
+  for (int k = 0; k < nhorizon; ++k) {
+    ulqr_InitializeLQRData(lqrdata + k, nstates, ninputs, data + k * lqrdata_size);
+  }
+
+  double c = 0.0;
+  for (int k = 0; k < 2; ++k) {
+    c += *(lqrdata + k)->c;
+  }
+  TEST(c == 0);
+
+  free(lqrdata);
+  free(data);
+}
+
 int main() {
-  TestInitializeLQRData();
-  TestLQRDataCopy();
+  // TestInitializeLQRData();
+  // TestLQRDataCopy();
+  TestLQRDataArray();
   PrintTestResult();
   return TestResult();
 }

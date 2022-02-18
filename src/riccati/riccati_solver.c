@@ -6,6 +6,7 @@
 
 #include "constants.h"
 #include "lqr_data.h"
+#include "slap/linalg.h"
 #include "slap/matrix.h"
 
 bool CheckBadIndex(const RiccatiSolver* solver, int k) {
@@ -26,7 +27,8 @@ RiccatiSolver* ulqr_NewRiccatiSolver(int nstates, int ninputs, int nhorizon) {
   int total_size = lqrdata_size * nhorizon + x0_size + traj_size;
 
   // Allocate all the numeric data
-  double* data = (double*)malloc(total_size * sizeof(double));
+  // double* data = (double*)malloc(total_size * sizeof(double));
+  double* data = (double*)calloc(total_size, sizeof(double));
   if (!data) {
     printf("ERROR: Failed to allocate memory for RiccatiSolver.\n");
     return NULL;
@@ -35,7 +37,7 @@ RiccatiSolver* ulqr_NewRiccatiSolver(int nstates, int ninputs, int nhorizon) {
 
   // Separate into chunks
   double* lqrdata_data = data;
-  double* x0_data = lqrdata_data + lqrdata_size;
+  double* x0_data = lqrdata_data + lqrdata_size * nhorizon;
   double* traj_data = x0_data + x0_size;
 
   // Allocate the solver
@@ -72,8 +74,8 @@ RiccatiSolver* ulqr_NewRiccatiSolver(int nstates, int ninputs, int nhorizon) {
 
   // Initialize all the LQRData
   for (int k = 0; k < nhorizon; ++k) {
-    int out =
-        ulqr_InitializeLQRData(lqrdata + k, nstates, ninputs, data + k * lqrdata_size);
+    int out = ulqr_InitializeLQRData(lqrdata + k, nstates, ninputs,
+                                     lqrdata_data + lqrdata_size * k);
     if (out != kOk) {
       free(data);
       free(solver);
@@ -177,6 +179,7 @@ enum ulqr_ReturnCode ulqr_SetCost(RiccatiSolver* solver, const double* Q, const 
       slap_MatrixCopyFromArray(&lqrdata->r, r);
     }
     *lqrdata->c = c;
+    // printf("Setting c to %f at time step %d at address %p\n", c, k, (void*) lqrdata->c);
   }
   return kOk;
 }
@@ -223,7 +226,7 @@ Matrix* ulqr_GetR(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)-
 Matrix* ulqr_GetH(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->H; }
 Matrix* ulqr_Getq(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->q; }
 Matrix* ulqr_Getr(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->r; }
-double ulqr_Getc(RiccatiSolver* solver, int k) { return *(solver->lqrdata + k)->c; }
+double ulqr_Getc(RiccatiSolver* solver, int k) { return *(solver->lqrdata[k]).c; }
 
 Matrix* ulqr_GetFeedbackGain(RiccatiSolver* solver, int k) {
   return &(solver->lqrdata + k)->K;
@@ -250,3 +253,30 @@ Matrix* ulqr_GetInput(RiccatiSolver* solver, int k) {
   return ulqr_GetKnotpointInput(solver->Z + k);
 }
 Matrix* ulqr_GetDual(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->y; }
+
+/*************************
+ *       Methods
+ *************************/
+double ulqr_CalcCost(RiccatiSolver* solver) {
+  double cost = 0.0;
+  const double half = 0.5;
+  for (int k = 0; k < solver->nhorizon; ++k) {
+    Matrix* x = ulqr_GetState(solver, k);
+    Matrix* Q = ulqr_GetQ(solver, k);
+    Matrix* q = ulqr_Getq(solver, k);
+
+    cost += half * slap_QuadraticForm(x, Q, x);
+    cost += slap_DotProduct(q, x);
+
+    if (k < solver->nhorizon - 1) {
+      Matrix* u = ulqr_GetInput(solver, k);
+      Matrix* R = ulqr_GetR(solver, k);
+      Matrix* r = ulqr_Getr(solver, k);
+      cost += half * slap_QuadraticForm(u, R, u);
+      cost += slap_DotProduct(r, u);
+    }
+
+    cost += ulqr_Getc(solver, k);
+  }
+  return cost;
+}
