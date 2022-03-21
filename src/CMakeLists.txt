@@ -12,3 +12,4 @@ endif()
 
 add_subdirectory(slap)
 add_subdirectory(riccati)
+add_subdirectory(models)

@@ -15,6 +15,7 @@ function (add_ulqr_test name)
     simpletest 
     slap 
     riccati
+    models
     m  # math library
   )
   add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
@@ -37,3 +38,4 @@ add_ulqr_test(linalg)
 add_ulqr_test(lqrdata)
 add_ulqr_test(knotpoint)
 add_ulqr_test(riccati_solver)
+add_ulqr_test(models)
