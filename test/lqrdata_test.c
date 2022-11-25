@@ -145,11 +145,9 @@ void TestLQRDataCopy() {
   free(data);
 }
 
-void InitLQRData(LQRData* lqrdata, double* data) {
-  lqrdata->c = data;
-}
+void InitLQRData(LQRData* lqrdata, double* data) { lqrdata->c = data; }
 
-void TestLQRDataArray() {  
+void TestLQRDataArray() {
   const int nhorizon = 3;
   const int nstates = 3;
   const int ninputs = 2;

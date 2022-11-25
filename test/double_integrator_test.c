@@ -3,8 +3,8 @@
 #include "riccati/constants.h"
 #include "riccati/riccati_solver.h"
 #include "simpletest/simpletest.h"
-#include "slap/matrix.h"
 #include "slap/linalg.h"
+#include "slap/matrix.h"
 #include "test_utils.h"
 
 void PrintDI(int dim) {
@@ -52,7 +52,7 @@ void TestDoubleIntegratorDynamics() {
   slap_FreeMatrix(&B);
 }
 
-void TestDoubleIntegratorCost() {  
+void TestDoubleIntegratorCost() {
   const double tol = 1e-10;
   const double dim = 1;
   const double h = 0.2;
@@ -127,7 +127,7 @@ void TestDoubleIntegratorCost() {
   cost = ulqr_CalcCost(solver);
   TESTAPPROX(cost, cost_ans2, tol);
   printf("Cost = %f\n", cost);
-  
+
   slap_FreeMatrix(&Q);
   slap_FreeMatrix(&R);
   slap_FreeMatrix(&Qf);

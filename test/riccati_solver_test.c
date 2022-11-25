@@ -1,7 +1,7 @@
 #include "riccati/riccati_solver.h"
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "riccati/constants.h"
 #include "simpletest/simpletest.h"
@@ -131,7 +131,6 @@ void TestRiccatiGetters() {
 
 void TestSetDynamics() {
   RiccatiSolver* solver = ulqr_NewRiccatiSolver(nstates, ninputs, nhorizon);
-
 
   int out = ulqr_SetDynamics(solver, A, B, f, 0, 3);
   TEST(out == kOk);

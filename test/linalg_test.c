@@ -207,9 +207,9 @@ int CholeskySolveTest() {
 }
 
 void TestQuadForm() {
-  double xdata[3] = {1,2,3};
-  double ydata[2] = {4,5};
-  double Adata[6] = {1,1,1, 2,2,2};
+  double xdata[3] = {1, 2, 3};
+  double ydata[2] = {4, 5};
+  double Adata[6] = {1, 1, 1, 2, 2, 2};
   Matrix x = {3, 1, xdata};
   Matrix y = {2, 1, ydata};
   Matrix A = {3, 2, Adata};
@@ -236,7 +236,6 @@ void AllTests() {
   printf("Using Eigen library for comparisons.\n");
 #endif
 }
-
 
 int main() {
   AllTests();

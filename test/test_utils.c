@@ -1,6 +1,7 @@
 #include "test_utils.h"
 
 #include <math.h>
+
 #include "riccati/riccati_solver.h"
 #include "slap/matrix.h"
 
@@ -42,8 +43,13 @@ RiccatiSolver* DoubleIntegratorProblem() {
   Matrix A = slap_NewMatrix(nstates, nstates);
   Matrix B = slap_NewMatrix(nstates, ninputs);
   DiscreteDoubleIntegratorDynamics(h, dim, &A, &B);
-  const double f[4] = {1, -1, 0, 0,};
-  ulqr_SetDynamics(solver, A.data, B.data, f, 0, nhorizon-1);
+  const double f[4] = {
+      1,
+      -1,
+      0,
+      0,
+  };
+  ulqr_SetDynamics(solver, A.data, B.data, f, 0, nhorizon - 1);
 
   return solver;
 }
