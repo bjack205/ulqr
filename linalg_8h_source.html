@@ -110,21 +110,24 @@ $(document).ready(function(){initNavTree('linalg_8h_source.html',''); initResiza
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keywordtype">int</span> slap_MatrixTransposeMultiply(<a class="code" href="structMatrix.html">Matrix</a>* A, <a class="code" href="structMatrix.html">Matrix</a>* B, <a class="code" href="structMatrix.html">Matrix</a>* C);</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="keywordtype">int</span> slap_SymmetricMatrixMultiply(<a class="code" href="structMatrix.html">Matrix</a>* Asym, <a class="code" href="structMatrix.html">Matrix</a>* B, <a class="code" href="structMatrix.html">Matrix</a>* C, <span class="keywordtype">double</span> alpha,</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                                 <span class="keywordtype">double</span> beta);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="keywordtype">int</span> slap_AddDiagonal(<a class="code" href="structMatrix.html">Matrix</a>* A, <span class="keywordtype">double</span> alpha);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="keywordtype">int</span> slap_CholeskyFactorize(<a class="code" href="structMatrix.html">Matrix</a>* A);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="keywordtype">int</span> slap_CholeskySolve(<a class="code" href="structMatrix.html">Matrix</a>* A, <a class="code" href="structMatrix.html">Matrix</a>* b);</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="keywordtype">int</span> slap_LowerTriBackSub(<a class="code" href="structMatrix.html">Matrix</a>* L, <a class="code" href="structMatrix.html">Matrix</a>* b, <span class="keywordtype">bool</span> istransposed);</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="keywordtype">double</span> slap_TwoNorm(<span class="keyword">const</span> <a class="code" href="structMatrix.html">Matrix</a>* M);</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="keywordtype">double</span> slap_OneNorm(<span class="keyword">const</span> <a class="code" href="structMatrix.html">Matrix</a>* M);</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="keywordtype">int</span> slap_SymmetricMatrixMultiply(<a class="code" href="structMatrix.html">Matrix</a>* Asym, <a class="code" href="structMatrix.html">Matrix</a>* B, <a class="code" href="structMatrix.html">Matrix</a>* C, <span class="keywordtype">double</span> alpha, <span class="keywordtype">double</span> beta);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="keywordtype">int</span> slap_AddDiagonal(<a class="code" href="structMatrix.html">Matrix</a>* A, <span class="keywordtype">double</span> alpha);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="keywordtype">int</span> slap_CholeskyFactorize(<a class="code" href="structMatrix.html">Matrix</a>* A);</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="keywordtype">int</span> slap_CholeskySolve(<a class="code" href="structMatrix.html">Matrix</a>* A, <a class="code" href="structMatrix.html">Matrix</a>* b);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="keywordtype">int</span> slap_LowerTriBackSub(<a class="code" href="structMatrix.html">Matrix</a>* L, <a class="code" href="structMatrix.html">Matrix</a>* b, <span class="keywordtype">bool</span> istransposed);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="keywordtype">double</span> slap_TwoNorm(<span class="keyword">const</span> <a class="code" href="structMatrix.html">Matrix</a>* M);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="keywordtype">double</span> slap_OneNorm(<span class="keyword">const</span> <a class="code" href="structMatrix.html">Matrix</a>* M);</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="keywordtype">double</span> slap_DotProduct(<span class="keyword">const</span> <a class="code" href="structMatrix.html">Matrix</a>* x, <span class="keyword">const</span> <a class="code" href="structMatrix.html">Matrix</a>* y);</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="keywordtype">double</span> slap_QuadraticForm(<span class="keyword">const</span> <a class="code" href="structMatrix.html">Matrix</a>* x, <span class="keyword">const</span> <a class="code" href="structMatrix.html">Matrix</a>* A, <span class="keyword">const</span> <a class="code" href="structMatrix.html">Matrix</a>* y);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="amatrix_8h_html"><div class="ttname"><a href="matrix_8h.html">matrix.h</a></div><div class="ttdoc">Matrix type and basic operations.</div></div>

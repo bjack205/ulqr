@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lqrdata_82',['LQRData',['../structLQRData.html',1,'']]]
+  ['lqrdata_83',['LQRData',['../structLQRData.html',1,'']]]
 ];

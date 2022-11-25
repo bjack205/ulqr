@@ -1,5 +1,6 @@
 var riccati__solver_8h =
 [
+    [ "ulqr_CalcCost", "group__riccati.html#ga8c80c87bc82b8e8bbbf1fdca7191a26e", null ],
     [ "ulqr_FreeRiccatiSolver", "group__riccati.html#ga4e96465520ad897615c38a126e5e494d", null ],
     [ "ulqr_GetA", "group__riccati.html#ga3eca6dfb0a619af6ec667df92df98438", null ],
     [ "ulqr_GetB", "group__riccati.html#ga5d63662aaac85a8a1a8549be1002d6a5", null ],
@@ -26,5 +27,6 @@ var riccati__solver_8h =
     [ "ulqr_NewRiccatiSolver", "group__riccati.html#gab8f96108fff2225047ebde2df8be69c5", null ],
     [ "ulqr_PrintRiccatiSummary", "group__riccati.html#ga20ce8492d2ce7a238ec1d226131683bb", null ],
     [ "ulqr_SetCost", "group__riccati.html#ga37f1a2b8c3a8a3098c8ff39d09fbf404", null ],
+    [ "ulqr_SetDynamics", "group__riccati.html#ga92d9a66e1ea77d9c6ca9342f16b0fe2e", null ],
     [ "ulqr_SetInitialState", "group__riccati.html#ga4d45776000f25bb5a198f003dde81f50", null ]
 ];

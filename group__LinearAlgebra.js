@@ -20,6 +20,7 @@ var group__LinearAlgebra =
     [ "slap_MatrixSetConst", "group__LinearAlgebra.html#gaff8eea32c41566b3db27c42ff937c9dd", null ],
     [ "slap_MatrixSetElement", "group__LinearAlgebra.html#ga23de35fc76d72b54719e163775260b73", null ],
     [ "slap_NewMatrix", "group__LinearAlgebra.html#ga9019c40a4c65f48d3b3da9bcf24bf65c", null ],
+    [ "slap_NewMatrixZeros", "group__LinearAlgebra.html#gaad0c3a859d46fb892c5a9e758d119c6d", null ],
     [ "slap_PrintMatrix", "group__LinearAlgebra.html#ga3f18b31ba6b5a47d23f516a612456524", null ],
     [ "slap_PrintRowVector", "group__LinearAlgebra.html#gab7b475a3a3107e4264092153ce14d1ab", null ],
     [ "slap_SetMatrixSize", "group__LinearAlgebra.html#ga58eac61396f5c8dc823a369827fb0736", null ]

@@ -133,6 +133,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>ulqr_GetNumVars</b> (<
 <tr class="memitem:ga37f1a2b8c3a8a3098c8ff39d09fbf404"><td class="memItemLeft" align="right" valign="top"><a id="ga37f1a2b8c3a8a3098c8ff39d09fbf404"></a>
 enum ulqr_ReturnCode&#160;</td><td class="memItemRight" valign="bottom"><b>ulqr_SetCost</b> (<a class="el" href="structRiccatiSolver.html">RiccatiSolver</a> *solver, const double *Q, const double *R, const double *H, const double *q, const double *r, double c, int k_start, int k_end)</td></tr>
 <tr class="separator:ga37f1a2b8c3a8a3098c8ff39d09fbf404"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga92d9a66e1ea77d9c6ca9342f16b0fe2e"><td class="memItemLeft" align="right" valign="top"><a id="ga92d9a66e1ea77d9c6ca9342f16b0fe2e"></a>
+enum ulqr_ReturnCode&#160;</td><td class="memItemRight" valign="bottom"><b>ulqr_SetDynamics</b> (<a class="el" href="structRiccatiSolver.html">RiccatiSolver</a> *solver, const double *A, const double *B, const double *f, int k_start, int k_end)</td></tr>
+<tr class="separator:ga92d9a66e1ea77d9c6ca9342f16b0fe2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3eca6dfb0a619af6ec667df92df98438"><td class="memItemLeft" align="right" valign="top"><a id="ga3eca6dfb0a619af6ec667df92df98438"></a>
 <a class="el" href="structMatrix.html">Matrix</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__riccati.html#ga3eca6dfb0a619af6ec667df92df98438">ulqr_GetA</a> (<a class="el" href="structRiccatiSolver.html">RiccatiSolver</a> *solver, int k)</td></tr>
 <tr class="memdesc:ga3eca6dfb0a619af6ec667df92df98438"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get (n,n) state transition matrix. <br /></td></tr>
@@ -217,6 +220,9 @@ double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gr
 <a class="el" href="structMatrix.html">Matrix</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__riccati.html#ga905cfc4d280262b1c0addd8e18b2cbe1">ulqr_GetDual</a> (<a class="el" href="structRiccatiSolver.html">RiccatiSolver</a> *solver, int k)</td></tr>
 <tr class="memdesc:ga905cfc4d280262b1c0addd8e18b2cbe1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get (n,) dual vector. <br /></td></tr>
 <tr class="separator:ga905cfc4d280262b1c0addd8e18b2cbe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8c80c87bc82b8e8bbbf1fdca7191a26e"><td class="memItemLeft" align="right" valign="top"><a id="ga8c80c87bc82b8e8bbbf1fdca7191a26e"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>ulqr_CalcCost</b> (<a class="el" href="structRiccatiSolver.html">RiccatiSolver</a> *solver)</td></tr>
+<tr class="separator:ga8c80c87bc82b8e8bbbf1fdca7191a26e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>

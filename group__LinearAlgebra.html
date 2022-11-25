@@ -109,6 +109,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga9019c40a4c65f48d3b3da9bcf24bf65c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structMatrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__LinearAlgebra.html#ga9019c40a4c65f48d3b3da9bcf24bf65c">slap_NewMatrix</a> (int rows, int cols)</td></tr>
 <tr class="memdesc:ga9019c40a4c65f48d3b3da9bcf24bf65c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate a new matrix on the heap.  <a href="group__LinearAlgebra.html#ga9019c40a4c65f48d3b3da9bcf24bf65c">More...</a><br /></td></tr>
 <tr class="separator:ga9019c40a4c65f48d3b3da9bcf24bf65c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaad0c3a859d46fb892c5a9e758d119c6d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structMatrix.html">Matrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__LinearAlgebra.html#gaad0c3a859d46fb892c5a9e758d119c6d">slap_NewMatrixZeros</a> (int rows, int cols)</td></tr>
+<tr class="memdesc:gaad0c3a859d46fb892c5a9e758d119c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate a new matrix on the heap, initialized with zeros.  <a href="group__LinearAlgebra.html#gaad0c3a859d46fb892c5a9e758d119c6d">More...</a><br /></td></tr>
+<tr class="separator:gaad0c3a859d46fb892c5a9e758d119c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaff8eea32c41566b3db27c42ff937c9dd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__LinearAlgebra.html#gaff8eea32c41566b3db27c42ff937c9dd">slap_MatrixSetConst</a> (<a class="el" href="structMatrix.html">Matrix</a> *mat, double val)</td></tr>
 <tr class="memdesc:gaff8eea32c41566b3db27c42ff937c9dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets all of the elements in a matrix to a single value.  <a href="group__LinearAlgebra.html#gaff8eea32c41566b3db27c42ff937c9dd">More...</a><br /></td></tr>
 <tr class="separator:gaff8eea32c41566b3db27c42ff937c9dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -727,6 +730,45 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Allocate a new matrix on the heap. </p>
+<p>Data will not be initialized. Wrapper around a call to <code>malloc</code>. Must be followed by a call to <code>FreeMatrix</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rows</td><td>number of rows in the matrix </td></tr>
+    <tr><td class="paramname">cols</td><td>number of columns in the matrix </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new matrix </dd></dl>
+
+</div>
+</div>
+<a id="gaad0c3a859d46fb892c5a9e758d119c6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaad0c3a859d46fb892c5a9e758d119c6d">&#9670;&nbsp;</a></span>slap_NewMatrixZeros()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structMatrix.html">Matrix</a> slap_NewMatrixZeros </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rows</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>cols</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Allocate a new matrix on the heap, initialized with zeros. </p>
 <p>Data will not be initialized. Wrapper around a call to <code>malloc</code>. Must be followed by a call to <code>FreeMatrix</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

@@ -94,33 +94,35 @@ $(document).ready(function(){initNavTree('knotpoint_8h_source.html',''); initRes
 <div class="title">knotpoint.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;constants.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;riccati/constants.h&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="matrix_8h.html">slap/matrix.h</a>&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="structKnotPoint.html">    9</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="structKnotPoint.html#a1b925a2210c86dfa85a592675def8bd2">   10</a></span>&#160;  <a class="code" href="structMatrix.html">Matrix</a> <a class="code" href="structKnotPoint.html#a1b925a2210c86dfa85a592675def8bd2">x</a>;  </div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="structKnotPoint.html#aa54b3b964d9160d5c66fae9885da1c96">   11</a></span>&#160;  <a class="code" href="structMatrix.html">Matrix</a> <a class="code" href="structKnotPoint.html#aa54b3b964d9160d5c66fae9885da1c96">u</a>;  </div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="structKnotPoint.html#af69cfc928f09cb942cfa4c989a868f76">   12</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="structKnotPoint.html#af69cfc928f09cb942cfa4c989a868f76">t</a>;  </div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="structKnotPoint.html#a6c9f04c11a0ba98cf9884947d0ffece3">   13</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="structKnotPoint.html#a6c9f04c11a0ba98cf9884947d0ffece3">h</a>;  </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;} <a class="code" href="structKnotPoint.html">KnotPoint</a>;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">enum</span> ulqr_ReturnCode ulqr_InitializeKnotPoint(<a class="code" href="structKnotPoint.html">KnotPoint</a>* z, <span class="keywordtype">int</span> nstates, <span class="keywordtype">int</span> ninputs,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                                              <span class="keywordtype">double</span>* data, <span class="keywordtype">double</span> t, <span class="keywordtype">double</span> h);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="structMatrix.html">Matrix</a>* ulqr_GetKnotpointState(<a class="code" href="structKnotPoint.html">KnotPoint</a>* z);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<a class="code" href="structMatrix.html">Matrix</a>* ulqr_GetKnotpointInput(<a class="code" href="structKnotPoint.html">KnotPoint</a>* z);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">double</span> ulqr_GetTime(<a class="code" href="structKnotPoint.html">KnotPoint</a>* z);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordtype">double</span> ulqr_GetTimestep(<a class="code" href="structKnotPoint.html">KnotPoint</a>* z);</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;constants.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;riccati/constants.h&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="matrix_8h.html">slap/matrix.h</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="structKnotPoint.html">   11</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="structKnotPoint.html#a1b925a2210c86dfa85a592675def8bd2">   12</a></span>&#160;  <a class="code" href="structMatrix.html">Matrix</a> <a class="code" href="structKnotPoint.html#a1b925a2210c86dfa85a592675def8bd2">x</a>;  </div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="structKnotPoint.html#aa54b3b964d9160d5c66fae9885da1c96">   13</a></span>&#160;  <a class="code" href="structMatrix.html">Matrix</a> <a class="code" href="structKnotPoint.html#aa54b3b964d9160d5c66fae9885da1c96">u</a>;  </div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="structKnotPoint.html#af69cfc928f09cb942cfa4c989a868f76">   14</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="structKnotPoint.html#af69cfc928f09cb942cfa4c989a868f76">t</a>;  </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="structKnotPoint.html#a6c9f04c11a0ba98cf9884947d0ffece3">   15</a></span>&#160;  <span class="keywordtype">double</span> <a class="code" href="structKnotPoint.html#a6c9f04c11a0ba98cf9884947d0ffece3">h</a>;  </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;} <a class="code" href="structKnotPoint.html">KnotPoint</a>;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">enum</span> ulqr_ReturnCode ulqr_InitializeKnotPoint(<a class="code" href="structKnotPoint.html">KnotPoint</a>* z, <span class="keywordtype">int</span> nstates, <span class="keywordtype">int</span> ninputs, <span class="keywordtype">double</span>* data,</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                                              <span class="keywordtype">double</span> t, <span class="keywordtype">double</span> h);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<a class="code" href="structMatrix.html">Matrix</a>* ulqr_GetKnotpointState(<a class="code" href="structKnotPoint.html">KnotPoint</a>* z);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<a class="code" href="structMatrix.html">Matrix</a>* ulqr_GetKnotpointInput(<a class="code" href="structKnotPoint.html">KnotPoint</a>* z);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keywordtype">double</span> ulqr_GetTime(<a class="code" href="structKnotPoint.html">KnotPoint</a>* z);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">double</span> ulqr_GetTimestep(<a class="code" href="structKnotPoint.html">KnotPoint</a>* z);</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astructKnotPoint_html_aa54b3b964d9160d5c66fae9885da1c96"><div class="ttname"><a href="structKnotPoint.html#aa54b3b964d9160d5c66fae9885da1c96">KnotPoint::u</a></div><div class="ttdeci">Matrix u</div><div class="ttdoc">control input vector</div><div class="ttdef"><b>Definition:</b> knotpoint.h:11</div></div>
-<div class="ttc" id="astructKnotPoint_html"><div class="ttname"><a href="structKnotPoint.html">KnotPoint</a></div><div class="ttdoc">Stores the state, control, and time information at a single timestep / knot point.</div><div class="ttdef"><b>Definition:</b> knotpoint.h:9</div></div>
+<div class="ttc" id="astructKnotPoint_html_aa54b3b964d9160d5c66fae9885da1c96"><div class="ttname"><a href="structKnotPoint.html#aa54b3b964d9160d5c66fae9885da1c96">KnotPoint::u</a></div><div class="ttdeci">Matrix u</div><div class="ttdoc">control input vector</div><div class="ttdef"><b>Definition:</b> knotpoint.h:13</div></div>
+<div class="ttc" id="astructKnotPoint_html"><div class="ttname"><a href="structKnotPoint.html">KnotPoint</a></div><div class="ttdoc">Stores the state, control, and time information at a single timestep / knot point.</div><div class="ttdef"><b>Definition:</b> knotpoint.h:11</div></div>
 <div class="ttc" id="amatrix_8h_html"><div class="ttname"><a href="matrix_8h.html">matrix.h</a></div><div class="ttdoc">Matrix type and basic operations.</div></div>
-<div class="ttc" id="astructKnotPoint_html_a1b925a2210c86dfa85a592675def8bd2"><div class="ttname"><a href="structKnotPoint.html#a1b925a2210c86dfa85a592675def8bd2">KnotPoint::x</a></div><div class="ttdeci">Matrix x</div><div class="ttdoc">state vector</div><div class="ttdef"><b>Definition:</b> knotpoint.h:10</div></div>
+<div class="ttc" id="astructKnotPoint_html_a1b925a2210c86dfa85a592675def8bd2"><div class="ttname"><a href="structKnotPoint.html#a1b925a2210c86dfa85a592675def8bd2">KnotPoint::x</a></div><div class="ttdeci">Matrix x</div><div class="ttdoc">state vector</div><div class="ttdef"><b>Definition:</b> knotpoint.h:12</div></div>
 <div class="ttc" id="astructMatrix_html"><div class="ttname"><a href="structMatrix.html">Matrix</a></div><div class="ttdoc">Represents a matrix of double-precision data.</div><div class="ttdef"><b>Definition:</b> matrix.h:71</div></div>
-<div class="ttc" id="astructKnotPoint_html_af69cfc928f09cb942cfa4c989a868f76"><div class="ttname"><a href="structKnotPoint.html#af69cfc928f09cb942cfa4c989a868f76">KnotPoint::t</a></div><div class="ttdeci">double t</div><div class="ttdoc">time</div><div class="ttdef"><b>Definition:</b> knotpoint.h:12</div></div>
-<div class="ttc" id="astructKnotPoint_html_a6c9f04c11a0ba98cf9884947d0ffece3"><div class="ttname"><a href="structKnotPoint.html#a6c9f04c11a0ba98cf9884947d0ffece3">KnotPoint::h</a></div><div class="ttdeci">double h</div><div class="ttdoc">time step</div><div class="ttdef"><b>Definition:</b> knotpoint.h:13</div></div>
+<div class="ttc" id="astructKnotPoint_html_af69cfc928f09cb942cfa4c989a868f76"><div class="ttname"><a href="structKnotPoint.html#af69cfc928f09cb942cfa4c989a868f76">KnotPoint::t</a></div><div class="ttdeci">double t</div><div class="ttdoc">time</div><div class="ttdef"><b>Definition:</b> knotpoint.h:14</div></div>
+<div class="ttc" id="astructKnotPoint_html_a6c9f04c11a0ba98cf9884947d0ffece3"><div class="ttname"><a href="structKnotPoint.html#a6c9f04c11a0ba98cf9884947d0ffece3">KnotPoint::h</a></div><div class="ttdeci">double h</div><div class="ttdoc">time step</div><div class="ttdef"><b>Definition:</b> knotpoint.h:15</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
