@@ -1,5 +1,6 @@
 #include "riccati/riccati_solver.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "riccati/constants.h"
@@ -16,6 +17,10 @@ const double H[6] = {0.1, 0, 0, 0.2, 0, 0};
 const double q[3] = {-0.1, -0.2, -0.3};
 const double r[2] = {0.1, 0.2};
 const double c = 10.4;
+
+const double A[9] = {1, 0, 0, 0, 1, 0, 0, 0, 1};
+const double B[6] = {.1, 0, 0, 0, .1, 0};
+const double f[3] = {-0.1, 0.2, 0.3};
 
 void TestNewRiccatiSolver() {
   RiccatiSolver* solver = ulqr_NewRiccatiSolver(nstates, ninputs, nhorizon);
@@ -124,10 +129,54 @@ void TestRiccatiGetters() {
   ulqr_FreeRiccatiSolver(&solver);
 }
 
+void TestSetDynamics() {
+  RiccatiSolver* solver = ulqr_NewRiccatiSolver(nstates, ninputs, nhorizon);
+
+  int out = ulqr_SetDynamics(solver, A, B, f, 0, 3);
+  TEST(out == kOk);
+  const double tol = 1e-8;
+  for (int k = 0; k < 3; ++k) {
+    TEST(SumOfSquaredError(ulqr_GetA(solver, k)->data, A, nstates * nstates) < tol);
+    TEST(SumOfSquaredError(ulqr_GetB(solver, k)->data, B, nstates * ninputs) < tol);
+    TEST(SumOfSquaredError(ulqr_Getf(solver, k)->data, f, nstates) < tol);
+  }
+
+  for (int k = 3; k < nhorizon; ++k) {
+    TEST(slap_OneNorm(ulqr_GetA(solver, k)) < tol);
+    TEST(slap_OneNorm(ulqr_GetB(solver, k)) < tol);
+    TEST(slap_OneNorm(ulqr_Getf(solver, k)) < tol);
+  }
+
+  out = ulqr_SetDynamics(solver, A, B, NULL, 0, nhorizon);
+  TEST(out == kOk);
+  for (int k = 0; k < nhorizon; ++k) {
+    TEST(SumOfSquaredError(ulqr_GetA(solver, k)->data, A, nstates * nstates) < tol);
+    TEST(SumOfSquaredError(ulqr_GetB(solver, k)->data, B, nstates * ninputs) < tol);
+    if (k >= 3) {
+      TESTAPPROX(slap_OneNorm(ulqr_Getf(solver, k)), 0.0, tol);
+    }
+  }
+
+  // Test bad inputs
+  out = ulqr_SetDynamics(solver, NULL, NULL, f, 0, nhorizon);
+  TEST(out = kBadInput);
+  out = ulqr_SetDynamics(solver, A, NULL, f, 0, nhorizon);
+  TEST(out = kBadInput);
+  out = ulqr_SetDynamics(solver, NULL, B, f, 0, nhorizon);
+  TEST(out = kBadInput);
+  out = ulqr_SetDynamics(solver, A, B, f, -1, nhorizon);
+  TEST(out = kBadInput);
+  out = ulqr_SetDynamics(solver, A, B, f, 0, nhorizon + 1);
+  TEST(out = kBadInput);
+
+  ulqr_FreeRiccatiSolver(&solver);
+}
+
 int main() {
-  TestNewRiccatiSolver();
-  TestSetCost();
-  TestRiccatiGetters();
+  // TestNewRiccatiSolver();
+  // TestSetCost();
+  // TestRiccatiGetters();
+  TestSetDynamics();
   PrintTestResult();
   return TestResult();
 }

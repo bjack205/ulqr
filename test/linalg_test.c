@@ -206,6 +206,24 @@ int CholeskySolveTest() {
   return 1;
 }
 
+void TestQuadForm() {
+  double xdata[3] = {1, 2, 3};
+  double ydata[2] = {4, 5};
+  double Adata[6] = {1, 1, 1, 2, 2, 2};
+  Matrix x = {3, 1, xdata};
+  Matrix y = {2, 1, ydata};
+  Matrix A = {3, 2, Adata};
+  Matrix Ay = slap_NewMatrix(3, 1);
+  slap_MatrixMultiply(&A, &y, &Ay, 0, 0, 1.0, 0.0);
+  double val_dot = slap_DotProduct(&x, &Ay);
+  double val_quad = slap_QuadraticForm(&x, &A, &y);
+
+  const double ans = 84.0;
+  const double tol = 1e-10;
+  TEST(fabs(val_dot - ans) < tol);
+  TEST(fabs(val_quad - ans) < tol);
+}
+
 void AllTests() {
   MatMul();
   MatAddTest();

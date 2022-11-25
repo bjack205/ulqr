@@ -62,8 +62,8 @@ enum ulqr_ReturnCode ulqr_InitializeLQRData(LQRData* lqrdata, int nstates, int n
   lqrdata->Qxx.data = Qxx;
   lqrdata->Quu.data = Quu;
   lqrdata->Qux.data = Qux;
-  lqrdata->q.data = q;
-  lqrdata->r.data = r;
+  lqrdata->Qx.data = Qx;
+  lqrdata->Qu.data = Qu;
   lqrdata->y.data = y;
   lqrdata->datasize = LQRDataSize(nstates, ninputs);
 
@@ -92,8 +92,8 @@ enum ulqr_ReturnCode ulqr_InitializeLQRData(LQRData* lqrdata, int nstates, int n
 
 int ulqr_CopyLQRData(LQRData* dest, LQRData* src) {
   if (dest->nstates != src->nstates || dest->ninputs != src->ninputs) {
-    fprintf(stderr, "Can't copy LQRData of different sizes: (%d,%d) and (%d,%d).\n",
-            dest->nstates, dest->ninputs, src->nstates, src->ninputs);
+    fprintf(stderr, "Can't copy LQRData of different sizes: (%d,%d) and (%d,%d).\n", dest->nstates,
+            dest->ninputs, src->nstates, src->ninputs);
     return -1;
   }
   int total_size = src->datasize;
@@ -102,14 +102,13 @@ int ulqr_CopyLQRData(LQRData* dest, LQRData* src) {
 }
 
 int LQRDataSize(int nstates, int ninputs) {
-  int cost_size = (nstates + 1) * nstates + (ninputs + 1) * ninputs + nstates * ninputs +
-                  1;                                                    // Q,R,q,r,c
-  int dynamics_size = nstates * nstates + nstates * ninputs + nstates;  // A,B,d
+  int cost_size =
+      (nstates + 1) * nstates + (ninputs + 1) * ninputs + nstates * ninputs + 1;  // Q,R,q,r,c
+  int dynamics_size = nstates * nstates + nstates * ninputs + nstates;            // A,B,d
   int gains_size = ninputs * (nstates + 1);
   int ctg_size = nstates * (nstates + 1);
   int action_value_size = cost_size - 1;
   int vec_size = nstates;
-  int total_size =
-      cost_size + dynamics_size + gains_size + ctg_size + action_value_size + vec_size;
-  return total_size;
+  int total_size = cost_size + dynamics_size + gains_size + ctg_size + action_value_size + vec_size;
+  return total_size + 1;
 }

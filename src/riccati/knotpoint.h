@@ -1,3 +1,5 @@
+#pragma once
+
 #include "constants.h"
 #include "riccati/constants.h"
 #include "slap/matrix.h"
@@ -28,8 +30,8 @@ typedef struct {
  * @param h       Time step, cannot be negative.
  * @return
  */
-enum ulqr_ReturnCode ulqr_InitializeKnotPoint(KnotPoint* z, int nstates, int ninputs,
-                                              double* data, double t, double h);
+enum ulqr_ReturnCode ulqr_InitializeKnotPoint(KnotPoint* z, int nstates, int ninputs, double* data,
+                                              double t, double h);
 
 Matrix* ulqr_GetKnotpointState(KnotPoint* z);
 Matrix* ulqr_GetKnotpointInput(KnotPoint* z);

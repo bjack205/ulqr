@@ -44,8 +44,7 @@ int slap_MatrixMultiply(Matrix* A, Matrix* B, Matrix* C, bool tA, bool tB, doubl
   return 0;
 }
 
-int slap_SymmetricMatrixMultiply(Matrix* Asym, Matrix* B, Matrix* C, double alpha,
-                                 double beta) {
+int slap_SymmetricMatrixMultiply(Matrix* Asym, Matrix* B, Matrix* C, double alpha, double beta) {
   int n;
   int m;
   bool tA = false;
@@ -162,4 +161,33 @@ double slap_OneNorm(const Matrix* M) {
     norm += fabs(x);
   }
   return sqrt(norm);
+}
+
+double slap_DotProduct(const Matrix* x, const Matrix* y) {
+  if ((x->rows != y->rows) || (x->cols != 1) || (y->cols != 1)) {
+    return NAN;
+  }
+  double out = 0.0;
+  for (int i = 0; i < x->rows; ++i) {
+    double xi = x->data[i];
+    double yi = y->data[i];
+    out += xi * yi;
+  }
+  return out;
+}
+
+double slap_QuadraticForm(const Matrix* x, const Matrix* A, const Matrix* y) {
+  if ((x->rows != A->rows) || (y->rows != A->cols) || (x->cols != 1) || (y->cols != 1)) {
+    return NAN;
+  }
+  double out = 0.0;
+  for (int i = 0; i < x->rows; ++i) {
+    for (int j = 0; j < y->rows; ++j) {
+      double xi = x->data[i];
+      double yj = y->data[j];
+      double Aij = *slap_MatrixGetElement(A, i, j);
+      out += xi * Aij * yj;
+    }
+  }
+  return out;
 }

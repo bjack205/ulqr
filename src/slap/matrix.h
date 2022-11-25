@@ -87,6 +87,18 @@ typedef struct {
 Matrix slap_NewMatrix(int rows, int cols);
 
 /**
+ * @brief Allocate a new matrix on the heap, initialized with zeros
+ *
+ * Data will not be initialized. Wrapper around a call to `malloc`.
+ * Must be followed by a call to `FreeMatrix`.
+ *
+ * @param rows number of rows in the matrix
+ * @param cols number of columns in the matrix
+ * @return A new matrix
+ */
+Matrix slap_NewMatrixZeros(int rows, int cols);
+
+/**
  * @brief Sets all of the elements in a matrix to a single value
  *
  * @param mat Matrix to be modified
@@ -142,8 +154,7 @@ int slap_MatrixGetLinearIndex(const Matrix* mat, int row, int col);
  * @param istranposed Are the indicies for the transpose of A?
  * @return            Pointer to the data at the given element.
  */
-double* slap_MatrixGetElementTranspose(const Matrix* mat, int row, int col,
-                                       bool istranposed);
+double* slap_MatrixGetElementTranspose(const Matrix* mat, int row, int col, bool istranposed);
 
 /**
  * @brief The a matrix element to a given value
