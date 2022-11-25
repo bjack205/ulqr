@@ -126,24 +126,23 @@ int ulqr_GetNumVars(RiccatiSolver* solver);
 enum ulqr_ReturnCode ulqr_SetInitialState(RiccatiSolver* solver, double* x0);
 
 enum ulqr_ReturnCode ulqr_SetCost(RiccatiSolver* solver, const double* Q, const double* R,
-                                  const double* H, const double* q, const double* r,
-                                  double c, int k_start, int k_end);
+                                  const double* H, const double* q, const double* r, double c,
+                                  int k_start, int k_end);
 
-enum ulqr_ReturnCode ulqr_SetDynamics(RiccatiSolver* solver, const double* A,
-                                      const double* B, const double* f, int k_start,
-                                      int k_end);
+enum ulqr_ReturnCode ulqr_SetDynamics(RiccatiSolver* solver, const double* A, const double* B,
+                                      const double* f, int k_start, int k_end);
 
 /*************************
  *       Getters
  *************************/
 Matrix* ulqr_GetA(RiccatiSolver* solver,
-                  int k);  ///< @brief Get (n,n) state transition matrix
+                  int k);                         ///< @brief Get (n,n) state transition matrix
 Matrix* ulqr_GetB(RiccatiSolver* solver, int k);  ///< @brief Get (n,m) control input matrix
 Matrix* ulqr_Getf(RiccatiSolver* solver, int k);  ///< @brief Get (n,) affine dynamice term
 Matrix* ulqr_GetQ(RiccatiSolver* solver, int k);  ///< @brief Get state cost Hessian
 Matrix* ulqr_GetR(RiccatiSolver* solver, int k);  ///< @brief Get control cost Hessian
 Matrix* ulqr_GetH(RiccatiSolver* solver,
-                  int k);  ///< @brief Get cost Hessian cross-term (m,n)
+                  int k);                         ///< @brief Get cost Hessian cross-term (m,n)
 Matrix* ulqr_Getq(RiccatiSolver* solver, int k);  ///< @brief Get affine state cost
 Matrix* ulqr_Getr(RiccatiSolver* solver, int k);  ///< @brief Get affine control cost
 double ulqr_Getc(RiccatiSolver* solver, int k);   ///< @brief Get cost constant

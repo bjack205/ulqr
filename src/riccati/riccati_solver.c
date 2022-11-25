@@ -11,8 +11,7 @@
 
 bool CheckBadIndex(const RiccatiSolver* solver, int k) {
   if (k < 0 || k > solver->nhorizon) {
-    printf("ERROR: Invalid knot point range. Must be in interval [0,%d)\n",
-           solver->nhorizon);
+    printf("ERROR: Invalid knot point range. Must be in interval [0,%d)\n", solver->nhorizon);
     return true;
   }
   return false;
@@ -58,8 +57,8 @@ RiccatiSolver* ulqr_NewRiccatiSolver(int nstates, int ninputs, int nhorizon) {
   }
   const double h = 0.1;  // TODO (brian): pull this from an input
   for (int k = 0; k < nhorizon; ++k) {
-    ulqr_InitializeKnotPoint(trajectory + k, nstates, ninputs,
-                             traj_data + (nstates + ninputs) * k, h * k, h);
+    ulqr_InitializeKnotPoint(trajectory + k, nstates, ninputs, traj_data + (nstates + ninputs) * k,
+                             h * k, h);
   }
 
   // Allocate space for LQRData array
@@ -74,8 +73,8 @@ RiccatiSolver* ulqr_NewRiccatiSolver(int nstates, int ninputs, int nhorizon) {
 
   // Initialize all the LQRData
   for (int k = 0; k < nhorizon; ++k) {
-    int out = ulqr_InitializeLQRData(lqrdata + k, nstates, ninputs,
-                                     lqrdata_data + lqrdata_size * k);
+    int out =
+        ulqr_InitializeLQRData(lqrdata + k, nstates, ninputs, lqrdata_data + lqrdata_size * k);
     if (out != kOk) {
       free(data);
       free(solver);
@@ -144,8 +143,8 @@ int ulqr_PrintRiccatiSummary(RiccatiSolver* solver) {
 int ulqr_GetNumVars(RiccatiSolver* solver) { return solver->nvars; }
 
 enum ulqr_ReturnCode ulqr_SetCost(RiccatiSolver* solver, const double* Q, const double* R,
-                                  const double* H, const double* q, const double* r,
-                                  double c, int k_start, int k_end) {
+                                  const double* H, const double* q, const double* r, double c,
+                                  int k_start, int k_end) {
   // Check inputs
   if (!solver) {
     return kBadInput;
@@ -184,9 +183,8 @@ enum ulqr_ReturnCode ulqr_SetCost(RiccatiSolver* solver, const double* Q, const 
   return kOk;
 }
 
-enum ulqr_ReturnCode ulqr_SetDynamics(RiccatiSolver* solver, const double* A,
-                                      const double* B, const double* f, int k_start,
-                                      int k_end) {
+enum ulqr_ReturnCode ulqr_SetDynamics(RiccatiSolver* solver, const double* A, const double* B,
+                                      const double* f, int k_start, int k_end) {
   // Check inputs
   if (!solver) {
     return kBadInput;
@@ -228,18 +226,11 @@ Matrix* ulqr_Getq(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)-
 Matrix* ulqr_Getr(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->r; }
 double ulqr_Getc(RiccatiSolver* solver, int k) { return *(solver->lqrdata[k]).c; }
 
-Matrix* ulqr_GetFeedbackGain(RiccatiSolver* solver, int k) {
-  return &(solver->lqrdata + k)->K;
-}
-Matrix* ulqr_GetFeedforwardGain(RiccatiSolver* solver, int k) {
-  return &(solver->lqrdata + k)->d;
-}
-Matrix* ulqr_GetCostToGoHessian(RiccatiSolver* solver, int k) {
-  return &(solver->lqrdata + k)->P;
-}
-Matrix* ulqr_GetCostToGoGradient(RiccatiSolver* solver, int k) {
-  return &(solver->lqrdata + k)->p;
-}
+Matrix* ulqr_GetFeedbackGain(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->K; }
+Matrix* ulqr_GetFeedforwardGain(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->d; }
+Matrix* ulqr_GetCostToGoHessian(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->P; }
+Matrix* ulqr_GetCostToGoGradient(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->p; }
+
 Matrix* ulqr_GetQxx(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->Qxx; }
 Matrix* ulqr_GetQuu(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->Quu; }
 Matrix* ulqr_GetQux(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->Qux; }
@@ -249,9 +240,11 @@ Matrix* ulqr_GetQu(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)
 Matrix* ulqr_GetState(RiccatiSolver* solver, int k) {
   return ulqr_GetKnotpointState(solver->Z + k);
 }
+
 Matrix* ulqr_GetInput(RiccatiSolver* solver, int k) {
   return ulqr_GetKnotpointInput(solver->Z + k);
 }
+
 Matrix* ulqr_GetDual(RiccatiSolver* solver, int k) { return &(solver->lqrdata + k)->y; }
 
 /*************************

@@ -154,8 +154,7 @@ int slap_MatrixGetLinearIndex(const Matrix* mat, int row, int col);
  * @param istranposed Are the indicies for the transpose of A?
  * @return            Pointer to the data at the given element.
  */
-double* slap_MatrixGetElementTranspose(const Matrix* mat, int row, int col,
-                                       bool istranposed);
+double* slap_MatrixGetElementTranspose(const Matrix* mat, int row, int col, bool istranposed);
 
 /**
  * @brief The a matrix element to a given value

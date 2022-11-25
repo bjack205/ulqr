@@ -67,8 +67,7 @@ double* slap_MatrixGetElement(const Matrix* mat, int row, int col) {
   return mat->data + slap_MatrixGetLinearIndex(mat, row, col);
 }
 
-double* slap_MatrixGetElementTranspose(const Matrix* mat, int row, int col,
-                                       bool istranposed) {
+double* slap_MatrixGetElementTranspose(const Matrix* mat, int row, int col, bool istranposed) {
   double* out;
   if (!istranposed) {
     out = slap_MatrixGetElement(mat, row, col);
@@ -121,8 +120,7 @@ int slap_MatrixCopyTranspose(Matrix* dest, Matrix* src) {
     return -1;
   }
   if ((dest->rows != src->cols) || (dest->cols != src->rows)) {
-    fprintf(stderr,
-            "Matrix sizes are not transposes of each other. Got (%d,%d) and (%d,%d).\n",
+    fprintf(stderr, "Matrix sizes are not transposes of each other. Got (%d,%d) and (%d,%d).\n",
             dest->rows, dest->cols, src->rows, src->cols);
     return -1;
   }
@@ -151,8 +149,8 @@ double slap_MatrixNormedDifference(Matrix* A, Matrix* B) {
     return INFINITY;
   }
   if ((A->rows != B->rows) || (A->cols != B->cols)) {
-    fprintf(stderr, "Can't compare matrices of different sizes. Got (%d,%d) and (%d,%d)\n",
-            A->rows, A->cols, B->rows, B->cols);
+    fprintf(stderr, "Can't compare matrices of different sizes. Got (%d,%d) and (%d,%d)\n", A->rows,
+            A->cols, B->rows, B->cols);
     return INFINITY;
   }
 

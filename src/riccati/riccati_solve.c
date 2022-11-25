@@ -111,7 +111,7 @@ int ulqr_BackwardPass(RiccatiSolver* solver) {
     slap_MatrixMultiply(Quu, K, Qux_tmp, 0, 0, 1.0, 0.0);  // Qux_tmp = Quu * K
     slap_MatrixMultiply(K, Qux_tmp, P, 1, 0, 1.0, 1.0);    // P = Qxx + K'Quu*K
     slap_MatrixMultiply(K, Qux, P, 1, 0, 1.0, 1.0);        // P = Quu + K'Quu*K + K'Qux
-    slap_MatrixMultiply(Qux, K, P, 1, 0, 1.0, 1.0);  // P = Quu + K'Quu*K + K'Qux + Qux'K
+    slap_MatrixMultiply(Qux, K, P, 1, 0, 1.0, 1.0);        // P = Quu + K'Quu*K + K'Qux + Qux'K
 
     slap_MatrixCopy(p, Qx);
     slap_MatrixMultiply(Quu, d, Qu_tmp, 0, 0, 1.0, 0.0);  // Qu_tmp = Quu * d

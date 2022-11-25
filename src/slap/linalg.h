@@ -103,8 +103,7 @@ int slap_MatrixTransposeMultiply(Matrix* A, Matrix* B, Matrix* C);
  * @param[in]    alpha
  * @param[in]    beta
  */
-int slap_SymmetricMatrixMultiply(Matrix* Asym, Matrix* B, Matrix* C, double alpha,
-                                 double beta);
+int slap_SymmetricMatrixMultiply(Matrix* Asym, Matrix* B, Matrix* C, double alpha, double beta);
 
 /**
  * @brief Add a constant value to the diagonal of a matrix
@@ -176,7 +175,7 @@ double slap_OneNorm(const Matrix* M);
 
 /**
  * @brief Calculate the dot product of two vectors
- * 
+ *
  * @param x A vector of length n
  * @param y A vector of length n
  * @return Dot product of x,y. NAN if invalid.
@@ -185,7 +184,7 @@ double slap_DotProduct(const Matrix* x, const Matrix* y);
 
 /**
  * @brief Calculate the scaled inner product \f$ x^T A y \f$
- * 
+ *
  * @param x A vector of length n
  * @param A A matrix of size (n,m)
  * @param y A vector of length m

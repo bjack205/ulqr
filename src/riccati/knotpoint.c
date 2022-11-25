@@ -6,8 +6,8 @@
 #include "constants.h"
 #include "slap/matrix.h"
 
-enum ulqr_ReturnCode ulqr_InitializeKnotPoint(KnotPoint* z, int nstates, int ninputs,
-                                              double* data, double t, double h) {
+enum ulqr_ReturnCode ulqr_InitializeKnotPoint(KnotPoint* z, int nstates, int ninputs, double* data,
+                                              double t, double h) {
   // Input validation
   if (!z) {
     printf("ERROR: Can't pass null point to knot point when initializing.\n");
